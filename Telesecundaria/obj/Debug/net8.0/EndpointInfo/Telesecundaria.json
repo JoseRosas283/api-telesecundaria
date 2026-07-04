@@ -1,0 +1,4220 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Telesecundaria",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/Adjunciones/registrar": {
+      "post": {
+        "tags": [
+          "Adjunciones"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": [
+                  "ActaNacimiento",
+                  "CertificadoPrimaria",
+                  "ClaveAspirante",
+                  "ClaveTutor",
+                  "ComprobanteDomicilio",
+                  "ConstanciaEstudios",
+                  "Curp"
+                ],
+                "type": "object",
+                "properties": {
+                  "ClaveTutor": {
+                    "type": "string"
+                  },
+                  "ClaveAspirante": {
+                    "type": "string"
+                  },
+                  "ActaNacimiento": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "Curp": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "ComprobanteDomicilio": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "CertificadoPrimaria": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "ConstanciaEstudios": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "ClaveTutor": {
+                  "style": "form"
+                },
+                "ClaveAspirante": {
+                  "style": "form"
+                },
+                "ActaNacimiento": {
+                  "style": "form"
+                },
+                "Curp": {
+                  "style": "form"
+                },
+                "ComprobanteDomicilio": {
+                  "style": "form"
+                },
+                "CertificadoPrimaria": {
+                  "style": "form"
+                },
+                "ConstanciaEstudios": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Adjunciones/documentos/temp": {
+      "post": {
+        "tags": [
+          "Adjunciones"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": [
+                  "Archivo",
+                  "ClaveAspirante",
+                  "TipoDocumento"
+                ],
+                "type": "object",
+                "properties": {
+                  "ClaveAspirante": {
+                    "type": "string"
+                  },
+                  "TipoDocumento": {
+                    "type": "string"
+                  },
+                  "Archivo": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "ClaveAspirante": {
+                  "style": "form"
+                },
+                "TipoDocumento": {
+                  "style": "form"
+                },
+                "Archivo": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Adjunciones/documentos/estado/{claveAspirante}": {
+      "get": {
+        "tags": [
+          "Adjunciones"
+        ],
+        "parameters": [
+          {
+            "name": "claveAspirante",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Adjunciones/finalizar": {
+      "post": {
+        "tags": [
+          "Adjunciones"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FinalizarAdjuncionRequestDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FinalizarAdjuncionRequestDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/FinalizarAdjuncionRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/AdjuncionesOriginales": {
+      "post": {
+        "tags": [
+          "AdjuncionesOriginales"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdjuncionOriginalRequestDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdjuncionOriginalRequestDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdjuncionOriginalRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/AdjuncionesOriginales/detalle": {
+      "post": {
+        "tags": [
+          "AdjuncionesOriginales"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DetalleAdjuncionOriginalRequestDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DetalleAdjuncionOriginalRequestDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/DetalleAdjuncionOriginalRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/AdjuncionesOriginales/{claveAdjOriginal}/progreso": {
+      "get": {
+        "tags": [
+          "AdjuncionesOriginales"
+        ],
+        "parameters": [
+          {
+            "name": "claveAdjOriginal",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/AsignacionGrupo": {
+      "get": {
+        "tags": [
+          "AsignacionGrupo"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "AsignacionGrupo"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AsignacionGrupoRequestDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AsignacionGrupoRequestDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AsignacionGrupoRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/AsignacionGrupo/{claveAsignacion}": {
+      "get": {
+        "tags": [
+          "AsignacionGrupo"
+        ],
+        "parameters": [
+          {
+            "name": "claveAsignacion",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Aspirantes": {
+      "get": {
+        "tags": [
+          "Aspirantes"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Aspirantes"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AspiranteRequestDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AspiranteRequestDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AspiranteRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Aspirantes/{claveAspirante}": {
+      "get": {
+        "tags": [
+          "Aspirantes"
+        ],
+        "parameters": [
+          {
+            "name": "claveAspirante",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Aspirantes"
+        ],
+        "parameters": [
+          {
+            "name": "claveAspirante",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AspiranteUpdateDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AspiranteUpdateDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AspiranteUpdateDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Aspirantes"
+        ],
+        "parameters": [
+          {
+            "name": "claveAspirante",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Aspirantes/curp/{curp}": {
+      "get": {
+        "tags": [
+          "Aspirantes"
+        ],
+        "parameters": [
+          {
+            "name": "curp",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Aspirantes/porConvocatoria/{claveConvocatoria}": {
+      "get": {
+        "tags": [
+          "Aspirantes"
+        ],
+        "parameters": [
+          {
+            "name": "claveConvocatoria",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/Auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/Auth/logout": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/Auth/Tutor/login": {
+      "post": {
+        "tags": [
+          "AuthTutor"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginTutorRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginTutorRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginTutorRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/Auth/Tutor/logout": {
+      "post": {
+        "tags": [
+          "AuthTutor"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/CiclosEscolares": {
+      "get": {
+        "tags": [
+          "CiclosEscolares"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "CiclosEscolares"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CicloEscolarRequestDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CicloEscolarRequestDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CicloEscolarRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/CiclosEscolares/{claveCiclo}": {
+      "get": {
+        "tags": [
+          "CiclosEscolares"
+        ],
+        "parameters": [
+          {
+            "name": "claveCiclo",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/CitasInscripcion": {
+      "get": {
+        "tags": [
+          "CitasInscripcion"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "CitasInscripcion"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CitaInscripcionRequestDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CitaInscripcionRequestDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CitaInscripcionRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/CitasInscripcion/{claveCita}": {
+      "get": {
+        "tags": [
+          "CitasInscripcion"
+        ],
+        "parameters": [
+          {
+            "name": "claveCita",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Convocatorias": {
+      "get": {
+        "tags": [
+          "Convocatorias"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Convocatorias"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConvocatoriaRequestDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConvocatoriaRequestDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConvocatoriaRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Convocatorias/{claveConvocatoria}": {
+      "get": {
+        "tags": [
+          "Convocatorias"
+        ],
+        "parameters": [
+          {
+            "name": "claveConvocatoria",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Convocatorias"
+        ],
+        "parameters": [
+          {
+            "name": "claveConvocatoria",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConvocatoriaUpdateDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConvocatoriaUpdateDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConvocatoriaUpdateDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Convocatorias"
+        ],
+        "parameters": [
+          {
+            "name": "claveConvocatoria",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "nombreUsuario",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/DestinoNotificacion": {
+      "get": {
+        "tags": [
+          "DestinoNotificacion"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "DestinoNotificacion"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DestinoNotificacionRequestDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DestinoNotificacionRequestDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/DestinoNotificacionRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/DestinoNotificacion/{clave}": {
+      "get": {
+        "tags": [
+          "DestinoNotificacion"
+        ],
+        "parameters": [
+          {
+            "name": "clave",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/DetalleRevision/revision/{claveRevision}": {
+      "get": {
+        "tags": [
+          "DetalleRevision"
+        ],
+        "parameters": [
+          {
+            "name": "claveRevision",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/DetalleRevision/{claveRevision}/{claveDocAspirante}": {
+      "get": {
+        "tags": [
+          "DetalleRevision"
+        ],
+        "parameters": [
+          {
+            "name": "claveRevision",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "claveDocAspirante",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "DetalleRevision"
+        ],
+        "parameters": [
+          {
+            "name": "claveRevision",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "claveDocAspirante",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DetalleRevisionUpdateDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DetalleRevisionUpdateDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/DetalleRevisionUpdateDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/DetalleRevision": {
+      "post": {
+        "tags": [
+          "DetalleRevision"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DetalleRevisionRequestDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DetalleRevisionRequestDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/DetalleRevisionRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/Documentos": {
+      "get": {
+        "tags": [
+          "Documentos"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/Documentos/ConsultarDocumento/{claveDocumento}": {
+      "get": {
+        "tags": [
+          "Documentos"
+        ],
+        "parameters": [
+          {
+            "name": "claveDocumento",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/Documentos/SubirDocumento": {
+      "post": {
+        "tags": [
+          "Documentos"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": [
+                  "CarnetISSSTe",
+                  "ConstanciaSituacionFiscal",
+                  "IneIdentificacion"
+                ],
+                "type": "object",
+                "properties": {
+                  "ClaveExpediente": {
+                    "type": "string"
+                  },
+                  "ConstanciaSituacionFiscal": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "CarnetISSSTe": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "IneIdentificacion": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "TituloProfesional": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "CedulaProfesional": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "ClaveUsuario": {
+                    "type": "string"
+                  }
+                }
+              },
+              "encoding": {
+                "ClaveExpediente": {
+                  "style": "form"
+                },
+                "ConstanciaSituacionFiscal": {
+                  "style": "form"
+                },
+                "CarnetISSSTe": {
+                  "style": "form"
+                },
+                "IneIdentificacion": {
+                  "style": "form"
+                },
+                "TituloProfesional": {
+                  "style": "form"
+                },
+                "CedulaProfesional": {
+                  "style": "form"
+                },
+                "ClaveUsuario": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/Documentos/alumno/documentos": {
+      "post": {
+        "tags": [
+          "Documentos"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": [
+                  "CartaBuenaConducta",
+                  "CertificadoPrimaria"
+                ],
+                "type": "object",
+                "properties": {
+                  "ClaveExpediente": {
+                    "type": "string"
+                  },
+                  "CertificadoPrimaria": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "CartaBuenaConducta": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "ClaveUsuario": {
+                    "type": "string"
+                  }
+                }
+              },
+              "encoding": {
+                "ClaveExpediente": {
+                  "style": "form"
+                },
+                "CertificadoPrimaria": {
+                  "style": "form"
+                },
+                "CartaBuenaConducta": {
+                  "style": "form"
+                },
+                "ClaveUsuario": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/Documentos/expediente/{claveExpediente}": {
+      "get": {
+        "tags": [
+          "Documentos"
+        ],
+        "parameters": [
+          {
+            "name": "claveExpediente",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/EmpleadoRol": {
+      "get": {
+        "tags": [
+          "EmpleadoRol"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "EmpleadoRol"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmpleadoRolCreateRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmpleadoRolCreateRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmpleadoRolCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/EmpleadoRol/ConsultarRol/{claveRol}": {
+      "get": {
+        "tags": [
+          "EmpleadoRol"
+        ],
+        "parameters": [
+          {
+            "name": "claveRol",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/Empleados": {
+      "get": {
+        "tags": [
+          "Empleados"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Empleados"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmpleadoCreateRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmpleadoCreateRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmpleadoCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/Empleados/ConsultarEmpleado/{claveEmpleado}": {
+      "get": {
+        "tags": [
+          "Empleados"
+        ],
+        "parameters": [
+          {
+            "name": "claveEmpleado",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/Empleados/actualizarEmpleado/{claveEmpleado}": {
+      "put": {
+        "tags": [
+          "Empleados"
+        ],
+        "parameters": [
+          {
+            "name": "claveEmpleado",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmpleadoUpdateRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmpleadoUpdateRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmpleadoUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/Empleados/eliminarEmpleado/{claveEmpleado}": {
+      "delete": {
+        "tags": [
+          "Empleados"
+        ],
+        "parameters": [
+          {
+            "name": "claveEmpleado",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Envios": {
+      "get": {
+        "tags": [
+          "Envios"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Envios/{clave}": {
+      "get": {
+        "tags": [
+          "Envios"
+        ],
+        "parameters": [
+          {
+            "name": "clave",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Envios/procesar-pendientes": {
+      "post": {
+        "tags": [
+          "Envios"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/Expedientes": {
+      "get": {
+        "tags": [
+          "Expedientes"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Expedientes"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpedienteCreateRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpedienteCreateRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpedienteCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/Expedientes/ConsultarExpediente/{claveExpediente}": {
+      "get": {
+        "tags": [
+          "Expedientes"
+        ],
+        "parameters": [
+          {
+            "name": "claveExpediente",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/Expedientes/actualizarExpediente/{claveExpediente}": {
+      "put": {
+        "tags": [
+          "Expedientes"
+        ],
+        "parameters": [
+          {
+            "name": "claveExpediente",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpedienteUpdateRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpedienteUpdateRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpedienteUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/Expedientes/eliminarExpediente/{claveExpediente}": {
+      "delete": {
+        "tags": [
+          "Expedientes"
+        ],
+        "parameters": [
+          {
+            "name": "claveExpediente",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/GaleriaImagenes": {
+      "get": {
+        "tags": [
+          "GaleriaImagenes"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "GaleriaImagenes"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "NombreArchivo": {
+                    "type": "string"
+                  },
+                  "Imagen": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "TipoRecurso": {
+                    "type": "string"
+                  }
+                }
+              },
+              "encoding": {
+                "NombreArchivo": {
+                  "style": "form"
+                },
+                "Imagen": {
+                  "style": "form"
+                },
+                "TipoRecurso": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/GaleriaImagenes/{claveImagen}": {
+      "get": {
+        "tags": [
+          "GaleriaImagenes"
+        ],
+        "parameters": [
+          {
+            "name": "claveImagen",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "GaleriaImagenes"
+        ],
+        "parameters": [
+          {
+            "name": "claveImagen",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "NombreArchivo": {
+                    "type": "string"
+                  },
+                  "Imagen": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "TipoRecurso": {
+                    "type": "string"
+                  }
+                }
+              },
+              "encoding": {
+                "NombreArchivo": {
+                  "style": "form"
+                },
+                "Imagen": {
+                  "style": "form"
+                },
+                "TipoRecurso": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "GaleriaImagenes"
+        ],
+        "parameters": [
+          {
+            "name": "claveImagen",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Grupos": {
+      "get": {
+        "tags": [
+          "Grupos"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Grupos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GrupoRequestDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GrupoRequestDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GrupoRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Grupos/{claveGrupo}": {
+      "get": {
+        "tags": [
+          "Grupos"
+        ],
+        "parameters": [
+          {
+            "name": "claveGrupo",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Inscripciones": {
+      "get": {
+        "tags": [
+          "Inscripciones"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Inscripciones"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InscripcionRequestDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InscripcionRequestDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/InscripcionRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Inscripciones/{claveInscripcion}": {
+      "get": {
+        "tags": [
+          "Inscripciones"
+        ],
+        "parameters": [
+          {
+            "name": "claveInscripcion",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/Modulos": {
+      "get": {
+        "tags": [
+          "Modulos"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Modulos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModuloCreateRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModuloCreateRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModuloCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/Modulos/ConsultarModulo/{claveModulo}": {
+      "get": {
+        "tags": [
+          "Modulos"
+        ],
+        "parameters": [
+          {
+            "name": "claveModulo",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/Modulos/ConsultarPorNombre/{nombreModulo}": {
+      "get": {
+        "tags": [
+          "Modulos"
+        ],
+        "parameters": [
+          {
+            "name": "nombreModulo",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Pagos": {
+      "get": {
+        "tags": [
+          "Pagos"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Pagos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagoRequestDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagoRequestDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagoRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Pagos/{clavePago}": {
+      "get": {
+        "tags": [
+          "Pagos"
+        ],
+        "parameters": [
+          {
+            "name": "clavePago",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/Permisos/gestionar": {
+      "post": {
+        "tags": [
+          "Permisos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PermisoGestionarRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PermisoGestionarRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PermisoGestionarRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Publicaciones": {
+      "get": {
+        "tags": [
+          "Publicaciones"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Publicaciones"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PublicacionRequestDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PublicacionRequestDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PublicacionRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Publicaciones/{clavePublicacion}": {
+      "get": {
+        "tags": [
+          "Publicaciones"
+        ],
+        "parameters": [
+          {
+            "name": "clavePublicacion",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Publicaciones"
+        ],
+        "parameters": [
+          {
+            "name": "clavePublicacion",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PublicacionUpdateDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PublicacionUpdateDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PublicacionUpdateDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Publicaciones"
+        ],
+        "parameters": [
+          {
+            "name": "clavePublicacion",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Receptores": {
+      "get": {
+        "tags": [
+          "Receptores"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Receptores"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReceptorRequestDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReceptorRequestDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReceptorRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Receptores/{claveReceptor}": {
+      "get": {
+        "tags": [
+          "Receptores"
+        ],
+        "parameters": [
+          {
+            "name": "claveReceptor",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Receptores"
+        ],
+        "parameters": [
+          {
+            "name": "claveReceptor",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReceptorUpdateDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReceptorUpdateDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReceptorUpdateDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Receptores"
+        ],
+        "parameters": [
+          {
+            "name": "claveReceptor",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Requisitos": {
+      "get": {
+        "tags": [
+          "Requisitos"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Requisitos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequisitoRequestDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequisitoRequestDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequisitoRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Requisitos/{claveRequisito}": {
+      "get": {
+        "tags": [
+          "Requisitos"
+        ],
+        "parameters": [
+          {
+            "name": "claveRequisito",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Revisiones": {
+      "get": {
+        "tags": [
+          "Revisiones"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Revisiones"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RevisionRequestDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RevisionRequestDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RevisionRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Revisiones/{claveRevision}": {
+      "get": {
+        "tags": [
+          "Revisiones"
+        ],
+        "parameters": [
+          {
+            "name": "claveRevision",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Revisiones/{claveRevision}/cerrar": {
+      "patch": {
+        "tags": [
+          "Revisiones"
+        ],
+        "parameters": [
+          {
+            "name": "claveRevision",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/RevisionesAceptadas/pendientes": {
+      "get": {
+        "tags": [
+          "RevisionesAceptadas"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/RevisionesAceptadas/{claveRevision}": {
+      "get": {
+        "tags": [
+          "RevisionesAceptadas"
+        ],
+        "parameters": [
+          {
+            "name": "claveRevision",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/RevisionesAceptadas": {
+      "post": {
+        "tags": [
+          "RevisionesAceptadas"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RevisionAceptadaRequestDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RevisionAceptadaRequestDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RevisionAceptadaRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/Roles": {
+      "get": {
+        "tags": [
+          "Roles"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Roles"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RolesCreateRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RolesCreateRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RolesCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/Roles/ConsultarRoles/{claveRol}": {
+      "get": {
+        "tags": [
+          "Roles"
+        ],
+        "parameters": [
+          {
+            "name": "claveRol",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/TipoDocumentos": {
+      "get": {
+        "tags": [
+          "TipoDocumentos"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "TipoDocumentos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TipoDocumentoRequestDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TipoDocumentoRequestDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TipoDocumentoRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/TipoDocumentos/{clave}": {
+      "get": {
+        "tags": [
+          "TipoDocumentos"
+        ],
+        "parameters": [
+          {
+            "name": "clave",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/TipoNotificaciones": {
+      "get": {
+        "tags": [
+          "TipoNotificaciones"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "TipoNotificaciones"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TipoNotificacionRequestDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TipoNotificacionRequestDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TipoNotificacionRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/TipoNotificaciones/{clave}": {
+      "get": {
+        "tags": [
+          "TipoNotificaciones"
+        ],
+        "parameters": [
+          {
+            "name": "clave",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/TutorAspirante": {
+      "get": {
+        "tags": [
+          "TutorAspirante"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "TutorAspirante"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TutorAspiranteRequestDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TutorAspiranteRequestDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TutorAspiranteRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/TutorAspirante/{claveTutorAspirante}": {
+      "get": {
+        "tags": [
+          "TutorAspirante"
+        ],
+        "parameters": [
+          {
+            "name": "claveTutorAspirante",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "TutorAspirante"
+        ],
+        "parameters": [
+          {
+            "name": "claveTutorAspirante",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TutorAspiranteUpdateDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TutorAspiranteUpdateDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TutorAspiranteUpdateDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "TutorAspirante"
+        ],
+        "parameters": [
+          {
+            "name": "claveTutorAspirante",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/TutorAspirante/curp/{curp}": {
+      "get": {
+        "tags": [
+          "TutorAspirante"
+        ],
+        "parameters": [
+          {
+            "name": "curp",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Tutores": {
+      "get": {
+        "tags": [
+          "Tutores"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Tutores"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TutorRequestDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TutorRequestDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TutorRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Tutores/{claveTutor}": {
+      "get": {
+        "tags": [
+          "Tutores"
+        ],
+        "parameters": [
+          {
+            "name": "claveTutor",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Tutores"
+        ],
+        "parameters": [
+          {
+            "name": "claveTutor",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TutorUpdateDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TutorUpdateDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TutorUpdateDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Tutores"
+        ],
+        "parameters": [
+          {
+            "name": "claveTutor",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/TutoresAlumnos": {
+      "get": {
+        "tags": [
+          "TutoresAlumnos"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "TutoresAlumnos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TutorAlumnoRequestDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TutorAlumnoRequestDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TutorAlumnoRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/TutoresAlumnos/{claveAlumno}/{claveTutor}": {
+      "get": {
+        "tags": [
+          "TutoresAlumnos"
+        ],
+        "parameters": [
+          {
+            "name": "claveAlumno",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "claveTutor",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/Usuarios": {
+      "get": {
+        "tags": [
+          "Usuarios"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Usuarios"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UsuarioCreateRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UsuarioCreateRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UsuarioCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/Usuarios/ConsultarUsuario/{claveUsuario}": {
+      "get": {
+        "tags": [
+          "Usuarios"
+        ],
+        "parameters": [
+          {
+            "name": "claveUsuario",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/Usuarios/actualizarUsuario/{claveUsuario}": {
+      "put": {
+        "tags": [
+          "Usuarios"
+        ],
+        "parameters": [
+          {
+            "name": "claveUsuario",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UsuarioUpdateRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UsuarioUpdateRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UsuarioUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/Usuarios/eliminarUsuario/{claveUsuario}": {
+      "delete": {
+        "tags": [
+          "Usuarios"
+        ],
+        "parameters": [
+          {
+            "name": "claveUsuario",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AdjuncionOriginalRequestDTO": {
+        "required": [
+          "claveEntrega",
+          "claveUsuario"
+        ],
+        "type": "object",
+        "properties": {
+          "claveEntrega": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "claveUsuario": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AsignacionGrupoRequestDTO": {
+        "type": "object",
+        "properties": {
+          "claveAlumno": {
+            "type": "string",
+            "nullable": true
+          },
+          "claveGrupo": {
+            "type": "string",
+            "nullable": true
+          },
+          "claveUsuario": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AspiranteRequestDTO": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "apellidoPaterno": {
+            "type": "string",
+            "nullable": true
+          },
+          "apellidoMaterno": {
+            "type": "string",
+            "nullable": true
+          },
+          "curp": {
+            "type": "string",
+            "nullable": true
+          },
+          "escuelaProcedencia": {
+            "type": "string",
+            "nullable": true
+          },
+          "promedioPrimaria": {
+            "type": "number",
+            "format": "double"
+          },
+          "discapacidadTexto": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombreEnfermedad": {
+            "type": "string",
+            "nullable": true
+          },
+          "hermanoTexto": {
+            "type": "string",
+            "nullable": true
+          },
+          "curpHermano": {
+            "type": "string",
+            "nullable": true
+          },
+          "claveTutorAspirante": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AspiranteUpdateDTO": {
+        "type": "object",
+        "properties": {
+          "curp": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "apellidoPaterno": {
+            "type": "string",
+            "nullable": true
+          },
+          "apellidoMaterno": {
+            "type": "string",
+            "nullable": true
+          },
+          "promedioPrimaria": {
+            "type": "number",
+            "format": "double"
+          },
+          "escuelaProcedencia": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CicloEscolarRequestDTO": {
+        "type": "object",
+        "properties": {
+          "fechaInicio": {
+            "type": "string",
+            "nullable": true
+          },
+          "fechaFin": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CitaInscripcionRequestDTO": {
+        "type": "object",
+        "properties": {
+          "claveRevision": {
+            "type": "string",
+            "nullable": true
+          },
+          "fechaCita": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "horaCita": {
+            "type": "string",
+            "format": "date-span"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ConvocatoriaRequestDTO": {
+        "type": "object",
+        "properties": {
+          "titulo": {
+            "type": "string",
+            "nullable": true
+          },
+          "subtitulo": {
+            "type": "string",
+            "nullable": true
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "fechaInicio": {
+            "type": "string",
+            "nullable": true
+          },
+          "fechaFin": {
+            "type": "string",
+            "nullable": true
+          },
+          "cicloEscolar": {
+            "type": "string",
+            "nullable": true
+          },
+          "cupoMaximo": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "nombreUsuario": {
+            "type": "string",
+            "nullable": true
+          },
+          "claveImagen": {
+            "type": "string",
+            "nullable": true
+          },
+          "destacado": {
+            "type": "boolean"
+          },
+          "destacadoTexto": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ConvocatoriaUpdateDTO": {
+        "type": "object",
+        "properties": {
+          "claveConvocatoria": {
+            "type": "string",
+            "nullable": true
+          },
+          "titulo": {
+            "type": "string",
+            "nullable": true
+          },
+          "subtitulo": {
+            "type": "string",
+            "nullable": true
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "cupoMaximo": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "nombreUsuario": {
+            "type": "string",
+            "nullable": true
+          },
+          "claveImagen": {
+            "type": "string",
+            "nullable": true
+          },
+          "destacadoTexto": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DestinoNotificacionRequestDTO": {
+        "required": [
+          "nombreProceso",
+          "tipoReceptor"
+        ],
+        "type": "object",
+        "properties": {
+          "nombreProceso": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "tipoReceptor": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "DetalleAdjuncionOriginalRequestDTO": {
+        "required": [
+          "claveAdjOriginal",
+          "claveDocAspirante"
+        ],
+        "type": "object",
+        "properties": {
+          "claveAdjOriginal": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "claveDocAspirante": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "DetalleRevisionRequestDTO": {
+        "type": "object",
+        "properties": {
+          "claveRevision": {
+            "type": "string",
+            "nullable": true
+          },
+          "claveDocAspirante": {
+            "type": "string",
+            "nullable": true
+          },
+          "estatusDoc": {
+            "type": "string",
+            "nullable": true
+          },
+          "motivoRechazo": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DetalleRevisionUpdateDTO": {
+        "type": "object",
+        "properties": {
+          "estatusDoc": {
+            "type": "string",
+            "nullable": true
+          },
+          "motivoRechazo": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EmpleadoCreateRequest": {
+        "type": "object",
+        "properties": {
+          "claveExpediente": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipoContrato": {
+            "type": "string",
+            "nullable": true
+          },
+          "telefono": {
+            "type": "string",
+            "nullable": true
+          },
+          "fechaContratacion": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EmpleadoRolCreateRequest": {
+        "type": "object",
+        "properties": {
+          "claveEmpleado": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombreRol": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EmpleadoUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "tipoContrato": {
+            "type": "string",
+            "nullable": true
+          },
+          "telefono": {
+            "type": "string",
+            "nullable": true
+          },
+          "estatusLaboral": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ExpedienteCreateRequest": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "apellidoPaterno": {
+            "type": "string",
+            "nullable": true
+          },
+          "apellidoMaterno": {
+            "type": "string",
+            "nullable": true
+          },
+          "curp": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipoTitular": {
+            "type": "string",
+            "nullable": true
+          },
+          "claveEntrega": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ExpedienteUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "apellidoPaterno": {
+            "type": "string",
+            "nullable": true
+          },
+          "apellidoMaterno": {
+            "type": "string",
+            "nullable": true
+          },
+          "curp": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FinalizarAdjuncionRequestDTO": {
+        "required": [
+          "claveAspirante",
+          "claveTutor"
+        ],
+        "type": "object",
+        "properties": {
+          "claveTutor": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "claveAspirante": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GrupoRequestDTO": {
+        "type": "object",
+        "properties": {
+          "grado": {
+            "type": "string",
+            "nullable": true
+          },
+          "seccion": {
+            "type": "string",
+            "nullable": true
+          },
+          "capacidadMaxima": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "generacion": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "InscripcionRequestDTO": {
+        "type": "object",
+        "properties": {
+          "claveAlumno": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombreUsuario": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "nombreUsuario": {
+            "type": "string",
+            "nullable": true
+          },
+          "contrasenia": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoginTutorRequest": {
+        "type": "object",
+        "properties": {
+          "correo": {
+            "type": "string",
+            "nullable": true
+          },
+          "contrasenia": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ModuloCreateRequest": {
+        "type": "object",
+        "properties": {
+          "nombreModulo": {
+            "type": "string",
+            "nullable": true
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "urlModulo": {
+            "type": "string",
+            "nullable": true
+          },
+          "claveModuloPadre": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PagoRequestDTO": {
+        "type": "object",
+        "properties": {
+          "claveTutor": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombreUsuario": {
+            "type": "string",
+            "nullable": true
+          },
+          "monto": {
+            "type": "number",
+            "format": "double"
+          },
+          "metodoPago": {
+            "type": "string",
+            "nullable": true
+          },
+          "comprobantePago": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PermisoGestionarRequest": {
+        "type": "object",
+        "properties": {
+          "nombreRol": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombreModulo": {
+            "type": "string",
+            "nullable": true
+          },
+          "puedeVer": {
+            "type": "string",
+            "nullable": true
+          },
+          "puedeCrear": {
+            "type": "string",
+            "nullable": true
+          },
+          "puedeEditar": {
+            "type": "string",
+            "nullable": true
+          },
+          "puedeEliminar": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PublicacionRequestDTO": {
+        "type": "object",
+        "properties": {
+          "titulo": {
+            "type": "string",
+            "nullable": true
+          },
+          "subtitulo": {
+            "type": "string",
+            "nullable": true
+          },
+          "cuerpoContenido": {
+            "type": "string",
+            "nullable": true
+          },
+          "categoria": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombreUsuario": {
+            "type": "string",
+            "nullable": true
+          },
+          "imgPrincipal": {
+            "type": "string",
+            "nullable": true
+          },
+          "imgSecundaria": {
+            "type": "string",
+            "nullable": true
+          },
+          "imgTercera": {
+            "type": "string",
+            "nullable": true
+          },
+          "claveConvocatoria": {
+            "type": "string",
+            "nullable": true
+          },
+          "destacado": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PublicacionUpdateDTO": {
+        "type": "object",
+        "properties": {
+          "titulo": {
+            "type": "string",
+            "nullable": true
+          },
+          "subtitulo": {
+            "type": "string",
+            "nullable": true
+          },
+          "cuerpoContenido": {
+            "type": "string",
+            "nullable": true
+          },
+          "categoria": {
+            "type": "string",
+            "nullable": true
+          },
+          "imgPrincipal": {
+            "type": "string",
+            "nullable": true
+          },
+          "imgSecundaria": {
+            "type": "string",
+            "nullable": true
+          },
+          "imgTercera": {
+            "type": "string",
+            "nullable": true
+          },
+          "destacado": {
+            "type": "boolean"
+          },
+          "estatusVisible": {
+            "type": "boolean"
+          },
+          "fechaRetiro": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ReceptorRequestDTO": {
+        "required": [
+          "claveReferencia",
+          "correo",
+          "tipoReceptor"
+        ],
+        "type": "object",
+        "properties": {
+          "tipoReceptor": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "claveReferencia": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "correo": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ReceptorUpdateDTO": {
+        "required": [
+          "nuevoCorreo"
+        ],
+        "type": "object",
+        "properties": {
+          "nuevoCorreo": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RequisitoRequestDTO": {
+        "type": "object",
+        "properties": {
+          "etapaProceso": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombreDocumento": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RevisionAceptadaRequestDTO": {
+        "type": "object",
+        "properties": {
+          "claveRevision": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RevisionRequestDTO": {
+        "type": "object",
+        "properties": {
+          "claveUsuario": {
+            "type": "string",
+            "nullable": true
+          },
+          "observacion": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RolesCreateRequest": {
+        "type": "object",
+        "properties": {
+          "nombreRol": {
+            "type": "string",
+            "nullable": true
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TipoDocumentoRequestDTO": {
+        "type": "object",
+        "properties": {
+          "nombreDocumento": {
+            "type": "string",
+            "nullable": true
+          },
+          "area": {
+            "type": "string",
+            "nullable": true
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TipoNotificacionRequestDTO": {
+        "required": [
+          "color",
+          "descripcion",
+          "icono",
+          "nombreProceso"
+        ],
+        "type": "object",
+        "properties": {
+          "nombreProceso": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "descripcion": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "icono": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "color": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TutorAlumnoRequestDTO": {
+        "required": [
+          "claveAlumno",
+          "claveTutor"
+        ],
+        "type": "object",
+        "properties": {
+          "claveAlumno": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "claveTutor": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TutorAspiranteRequestDTO": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "apellidoPaterno": {
+            "type": "string",
+            "nullable": true
+          },
+          "apellidoMaterno": {
+            "type": "string",
+            "nullable": true
+          },
+          "curpTutor": {
+            "type": "string",
+            "nullable": true
+          },
+          "telefono": {
+            "type": "string",
+            "nullable": true
+          },
+          "correo": {
+            "type": "string",
+            "nullable": true
+          },
+          "parentesco": {
+            "type": "string",
+            "nullable": true
+          },
+          "contrasena": {
+            "type": "string",
+            "nullable": true
+          },
+          "calleNumero": {
+            "type": "string",
+            "nullable": true
+          },
+          "colonia": {
+            "type": "string",
+            "nullable": true
+          },
+          "codigoPostal": {
+            "type": "string",
+            "nullable": true
+          },
+          "municipio": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TutorAspiranteUpdateDTO": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "apellidoPaterno": {
+            "type": "string",
+            "nullable": true
+          },
+          "apellidoMaterno": {
+            "type": "string",
+            "nullable": true
+          },
+          "curpTutor": {
+            "type": "string",
+            "nullable": true
+          },
+          "telefono": {
+            "type": "string",
+            "nullable": true
+          },
+          "correo": {
+            "type": "string",
+            "nullable": true
+          },
+          "parentesco": {
+            "type": "string",
+            "nullable": true
+          },
+          "contrasena": {
+            "type": "string",
+            "nullable": true
+          },
+          "calleNumero": {
+            "type": "string",
+            "nullable": true
+          },
+          "colonia": {
+            "type": "string",
+            "nullable": true
+          },
+          "codigoPostal": {
+            "type": "string",
+            "nullable": true
+          },
+          "municipio": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TutorRequestDTO": {
+        "required": [
+          "apellidoPaterno",
+          "correo",
+          "curpTutor",
+          "nombre",
+          "parentesco",
+          "telefono"
+        ],
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "apellidoPaterno": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "apellidoMaterno": {
+            "type": "string",
+            "nullable": true
+          },
+          "curpTutor": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "telefono": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "correo": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "parentesco": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TutorUpdateDTO": {
+        "required": [
+          "apellidoPaterno",
+          "correo",
+          "curpTutor",
+          "nombre",
+          "parentesco",
+          "telefono"
+        ],
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "apellidoPaterno": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "apellidoMaterno": {
+            "type": "string",
+            "nullable": true
+          },
+          "curpTutor": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "telefono": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "correo": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "parentesco": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UsuarioCreateRequest": {
+        "type": "object",
+        "properties": {
+          "claveEmpleado": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombreUsuario": {
+            "type": "string",
+            "nullable": true
+          },
+          "contrasenia": {
+            "type": "string",
+            "nullable": true
+          },
+          "correoInstitucional": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UsuarioUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "nombreUsuario": {
+            "type": "string",
+            "nullable": true
+          },
+          "contrasenia": {
+            "type": "string",
+            "nullable": true
+          },
+          "correoInstitucional": {
+            "type": "string",
+            "nullable": true
+          },
+          "estado": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "Escribe tu token JWT aquí",
+        "scheme": "Bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
+}
