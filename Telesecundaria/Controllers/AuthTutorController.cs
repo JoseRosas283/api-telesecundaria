@@ -42,8 +42,10 @@ namespace Telesecundaria.Controllers
                     ?? throw new ArgumentException("No se encontró claveToken en el token.");
                 var tokenOriginal = User.FindFirst("tokenOriginal")?.Value
                     ?? throw new ArgumentException("No se encontró tokenOriginal en el token.");
+                var claveTutorAspirante = User.FindFirst("claveTutorAspirante")?.Value ?? string.Empty;
 
                 var resultado = await _service.LogoutAsync(claveToken, tokenOriginal);
+                resultado.ClaveTutorAspirante = claveTutorAspirante;
                 return Ok(resultado);
             }
             catch (ArgumentException ex) { return BadRequest(new { mensaje = ex.Message }); }

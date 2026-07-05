@@ -27,18 +27,19 @@ namespace Telesecundaria.Services.Implementations
             if (string.IsNullOrWhiteSpace(request.Contrasenia))
                 throw new ArgumentException("La contraseña es obligatoria.");
 
-            var (exito, mensaje, claveToken, tokenOriginal, nombreTutor) =
+            var (exito, mensaje, claveToken, tokenOriginal, nombreTutor, claveTutorAspirante) =
                 await _repository.IniciarSesionAsync(request, ip, userAgent);
 
             if (!exito)
                 throw new UnauthorizedAccessException(mensaje);
 
-            var token = GenerarToken(claveToken, tokenOriginal, nombreTutor);
+            var token = GenerarToken(claveToken, tokenOriginal, nombreTutor, claveTutorAspirante);
 
             return new LoginTutorResponse
             {
                 Token = token,
                 ClaveToken = claveToken,
+                ClaveTutorAspirante = claveTutorAspirante,
                 NombreTutor = nombreTutor,
                 Mensaje = mensaje
             };
@@ -59,7 +60,7 @@ namespace Telesecundaria.Services.Implementations
             return new LoginTutorResponse { Mensaje = mensaje };
         }
 
-        private string GenerarToken(string claveToken, string tokenOriginal, string nombreTutor)
+        private string GenerarToken(string claveToken, string tokenOriginal, string nombreTutor, string claveTutorAspirante)
         {
             var key = _configuration["Jwt:Key"]!;
             var expiracion = int.Parse(_configuration["Jwt:ExpiracionMinutos"]!);
@@ -69,6 +70,7 @@ namespace Telesecundaria.Services.Implementations
             new Claim("claveToken",    claveToken),
             new Claim("tokenOriginal", tokenOriginal),
             new Claim("nombreTutor",   nombreTutor),
+            new Claim("claveTutorAspirante", claveTutorAspirante),
             new Claim(ClaimTypes.Role, "Tutor")
         };
 
