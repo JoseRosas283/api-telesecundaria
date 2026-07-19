@@ -1893,7 +1893,7 @@ namespace Telesecundaria.Persistence
 
                 entity.Property(e => e.ArchivoUrl)
                       .HasColumnName("archivo_url")
-                      .HasMaxLength(80)
+                      .HasMaxLength(255)
                       .IsRequired();
 
                 entity.Property(e => e.Estado)
