@@ -1,4 +1,6 @@
-﻿namespace Telesecundaria.Models
+﻿using System.Text.Json.Serialization;
+
+namespace Telesecundaria.Models
 {
     public class PermisosEntity
     {
@@ -14,6 +16,7 @@
         public DateTime FechaAsignacion { get; set; }
 
         // Navegación
+        [JsonIgnore]
         public RolesEntity Rol { get; set; }
         public ModulosEntity Modulo { get; set; }
     }

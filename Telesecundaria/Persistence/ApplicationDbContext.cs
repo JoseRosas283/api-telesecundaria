@@ -46,7 +46,7 @@ namespace Telesecundaria.Persistence
         public DbSet<EmpleadosEntity> Empleados { get; set; }
         public DbSet<UsuariosEntity> Usuarios { get; set; }
         public DbSet<EmpleadoRolEntity> EmpleadoRol { get; set; }
-
+        
         // DbSets nuevos
         public DbSet<ModulosEntity> Modulos { get; set; }
         public DbSet<PermisosEntity> Permisos { get; set; }
@@ -60,6 +60,11 @@ namespace Telesecundaria.Persistence
         public DbSet<PeriodosEntity> Periodos { get; set; }
         public DbSet<PagosEntity> Pagos { get; set; }
         public DbSet<InscripcionesEntity> Inscripciones { get; set; }
+
+        // DbSets nuevos
+        public DbSet<RefreshTokenEntity> RefreshTokens { get; set; }
+        public DbSet<RefreshTokenTutorEntity> RefreshTokensTutor { get; set; }
+        public DbSet<CodigosRecuperacionTutorEntity> CodigosRecuperacionTutor { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -2398,6 +2403,160 @@ namespace Telesecundaria.Persistence
                       .HasConstraintName("fk_ins_pago")
                       .IsRequired(false);
             });
+
+            modelBuilder.Entity<RefreshTokenEntity>(entity =>
+            {
+                entity.ToTable("refresh_tokens");
+                entity.HasKey(e => e.ClaveRefreshToken);
+
+                entity.Property(e => e.ClaveRefreshToken)
+                      .HasColumnName("clave_refresh_token")
+                      .HasDefaultValueSql("gen_random_uuid()")
+                      .ValueGeneratedOnAdd()
+                      .IsRequired();
+
+                entity.Property(e => e.ClaveUsuario)
+                      .HasColumnName("claveUsuario")
+                      .HasMaxLength(18)
+                      .IsRequired();
+
+                entity.Property(e => e.ClaveLogueo)
+                      .HasColumnName("claveLogueo")
+                      .HasMaxLength(18)
+                      .IsRequired();
+
+                entity.Property(e => e.Token)
+                      .HasColumnName("token")
+                      .HasMaxLength(255)
+                      .IsRequired();
+
+                entity.HasIndex(e => e.Token).IsUnique();
+
+                entity.Property(e => e.FechaCreacion)
+                      .HasColumnName("fecha_creacion")
+                      .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                entity.Property(e => e.FechaExpiracion)
+                      .HasColumnName("fecha_expiracion")
+                      .IsRequired();
+
+                entity.Property(e => e.Revocado)
+                      .HasColumnName("revocado")
+                      .HasDefaultValue(false);
+
+                entity.HasOne(e => e.Usuario)
+                      .WithMany()
+                      .HasForeignKey(e => e.ClaveUsuario)
+                      .HasConstraintName("fk_refresh_usuario")
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            // RefreshTokensTutor
+            modelBuilder.Entity<RefreshTokenTutorEntity>(entity =>
+            {
+                entity.ToTable("refresh_tokens_tutor");
+                entity.HasKey(e => e.ClaveRefreshToken);
+
+                entity.Property(e => e.ClaveRefreshToken)
+                      .HasColumnName("clave_refresh_token")
+                      .HasDefaultValueSql("gen_random_uuid()")
+                      .ValueGeneratedOnAdd()
+                      .IsRequired();
+
+                entity.Property(e => e.ClaveTutorAspirante)
+                      .HasColumnName("claveTutorAspirante")
+                      .HasMaxLength(18)
+                      .IsRequired();
+
+                entity.Property(e => e.ClaveTokenConvocatoria)
+                      .HasColumnName("claveTokenConvocatoria")
+                      .HasMaxLength(20)
+                      .IsRequired();
+
+                entity.Property(e => e.Token)
+                      .HasColumnName("token")
+                      .HasMaxLength(255)
+                      .IsRequired();
+
+                entity.HasIndex(e => e.Token).IsUnique();
+
+                entity.Property(e => e.FechaCreacion)
+                      .HasColumnName("fecha_creacion")
+                      .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                entity.Property(e => e.FechaExpiracion)
+                      .HasColumnName("fecha_expiracion")
+                      .IsRequired();
+
+                entity.Property(e => e.Revocado)
+                      .HasColumnName("revocado")
+                      .HasDefaultValue(false);
+
+                entity.HasOne(e => e.TutorAspirante)
+                      .WithMany()
+                      .HasForeignKey(e => e.ClaveTutorAspirante)
+                      .HasConstraintName("fk_refresh_tutor")
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(e => e.TokenConvocatoria)
+                      .WithMany()
+                      .HasForeignKey(e => e.ClaveTokenConvocatoria)
+                      .HasConstraintName("fk_refresh_token_convocatoria")
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            // CodigosRecuperacionTutor
+            modelBuilder.Entity<CodigosRecuperacionTutorEntity>(entity =>
+            {
+                entity.ToTable("CodigosRecuperacionTutor");
+                entity.HasKey(e => e.ClaveCodigoRecuperacion);
+
+                entity.Property(e => e.ClaveCodigoRecuperacion)
+                      .HasColumnName("claveCodigoRecuperacion")
+                      .HasMaxLength(18)
+                      .HasDefaultValueSql("generar_clave_codigo_recuperacion()")
+                      .ValueGeneratedOnAdd()
+                      .IsRequired();
+
+                entity.Property(e => e.ClaveTutorAspirante)
+                      .HasColumnName("claveTutorAspirante")
+                      .HasMaxLength(18)
+                      .IsRequired();
+
+                entity.Property(e => e.Codigo)
+                      .HasColumnName("codigo")
+                      .HasMaxLength(6)
+                      .IsRequired();
+
+                entity.Property(e => e.FechaCreacion)
+                      .HasColumnName("fecha_creacion")
+                      .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                entity.Property(e => e.FechaExpiracion)
+                      .HasColumnName("fecha_expiracion")
+                      .IsRequired();
+
+                entity.Property(e => e.Usado)
+                      .HasColumnName("usado")
+                      .HasDefaultValue(false);
+
+                entity.Property(e => e.TokenConfirmacion)
+                      .HasColumnName("token_confirmacion")
+                      .HasMaxLength(64);
+
+                entity.Property(e => e.TokenExpiracion)
+                      .HasColumnName("token_expiracion");
+
+                entity.Property(e => e.TokenUsado)
+                      .HasColumnName("token_usado")
+                      .HasDefaultValue(false);
+
+                entity.HasOne(e => e.TutorAspirante)
+                      .WithMany()
+                      .HasForeignKey(e => e.ClaveTutorAspirante)
+                      .HasConstraintName("fk_codigo_tutor");
+            });
+
         }
     }
 }

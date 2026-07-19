@@ -1,4 +1,6 @@
-﻿namespace Telesecundaria.Models
+﻿using System.Text.Json.Serialization;
+
+namespace Telesecundaria.Models
 {
     public class ModulosEntity
     {
@@ -12,10 +14,12 @@
         public string? ClaveModuloPadre { get; set; }
 
         // Navegación interna
+        [JsonIgnore]
         public ModulosEntity? ModuloPadre { get; set; }
         public ICollection<ModulosEntity> SubModulos { get; set; } = new List<ModulosEntity>();
 
         // Navegación hacia permisos
+        [JsonIgnore]
         public ICollection<PermisosEntity> Permisos { get; set; } = new List<PermisosEntity>();
     }
 }
