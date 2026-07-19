@@ -33,14 +33,9 @@ namespace Telesecundaria.Services.Implementations
         }
 
 
-        public async Task<EmpleadoRolEntity> CreateAsync(EmpleadoRolCreateRequest request)
+        public async Task<EmpleadoRolEntity> CreateAsync(RolCreateRequest request)
         {
-            if (string.IsNullOrWhiteSpace(request.ClaveEmpleado))
-                throw new ArgumentException("La clave empleado debe ser obligatorio");
-
-            if (string.IsNullOrWhiteSpace(request.NombreRol))
-                throw new ArgumentException("El nombre del rol es obligatorio");
-
+            
             return await _repository.CreateAsync(request);
         }
     }

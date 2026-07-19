@@ -40,21 +40,6 @@ namespace Telesecundaria.Services.Implementations
         public async Task<ExpedientesEntity> CreateAsync(ExpedienteCreateRequest request)
         {
 
-            if (string.IsNullOrWhiteSpace(request.Nombre))
-                throw new ArgumentException("El nombre del expediente es obligatorio");
-
-            if (string.IsNullOrWhiteSpace(request.ApellidoPaterno))
-                throw new ArgumentException("El apellido paterno es obligatorio");
-
-            if (string.IsNullOrWhiteSpace(request.ApellidoMaterno))
-                throw new ArgumentException("El apellido materno es obligatorio");
-
-            if (string.IsNullOrWhiteSpace(request.Curp))
-                throw new ArgumentException("La curp debe ser obligatoria");
-
-            if (string.IsNullOrWhiteSpace(request.TipoTitular))
-                throw new ArgumentException("El tipo titular debe ser obligatoria");
-
             return await _repository.CreateAsync(request);
 
         }
@@ -62,21 +47,10 @@ namespace Telesecundaria.Services.Implementations
 
         public async Task UpdateAsync(string claveExpediente, ExpedienteUpdateRequest request)
         {
+            var existente = await _repository.GetByIdAsync(claveExpediente);
 
-            if (string.IsNullOrWhiteSpace(claveExpediente))
-                throw new ArgumentException("La clave del expediente no puede estar vacía.");
-
-            if (string.IsNullOrWhiteSpace(request.Nombre))
-                throw new ArgumentException("El nombre es obligatorio.");
-
-            if (string.IsNullOrWhiteSpace(request.ApellidoPaterno))
-                throw new ArgumentException("El apellido paterno es obligatorio.");
-
-            if (string.IsNullOrWhiteSpace(request.ApellidoMaterno))
-                throw new ArgumentException("El apellido materno es obligatorio");
-
-            if (string.IsNullOrWhiteSpace(request.Curp))
-                throw new ArgumentException("La CURP es obligatoria.");
+            if (existente == null)
+                throw new ArgumentException($"La clave no existe: {claveExpediente}");
 
             await _repository.UpdateAsync(claveExpediente, request);
 

@@ -35,18 +35,9 @@ namespace Telesecundaria.Services.Implementations
 
         public async Task<TipoDocumentoResponseDTO> InsertarTipoDocumentoAsync(TipoDocumentoRequestDTO dto)
         {
-            if (string.IsNullOrWhiteSpace(dto.NombreDocumento))
-                throw new ArgumentException("El nombre del documento es obligatorio.");
-
-            if (string.IsNullOrWhiteSpace(dto.Area))
-                throw new ArgumentException("El área es obligatoria.");
-
-            if (string.IsNullOrWhiteSpace(dto.Descripcion))
-                throw new ArgumentException("La descripción es obligatoria.");
-
+          
             await _repository.InsertarTipoDocumentoAsync(dto);
 
-            // Recuperamos el recién insertado buscando por nombre normalizado
             var todos = await _repository.ListarTipoDocumentosAsync();
             var insertado = todos
                 .FirstOrDefault(d => d.NombreDocumento == dto.NombreDocumento.Trim().ToUpper());

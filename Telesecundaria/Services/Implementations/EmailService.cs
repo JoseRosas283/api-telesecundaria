@@ -35,8 +35,9 @@ namespace Telesecundaria.Services.Implementations
 
                 return true;
             }
-            catch
+            catch(Exception ex)
             {
+                Console.WriteLine($"[EmailService] Falló el envío: {ex.GetType().Name} - {ex.Message}");
                 return false;
             }
         }

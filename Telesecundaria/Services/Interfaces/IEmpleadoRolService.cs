@@ -9,6 +9,6 @@ namespace Telesecundaria.Services.Interfaces
 
         Task<EmpleadoRolEntity?> GetByIdAsync(string claveRol);
 
-        Task<EmpleadoRolEntity> CreateAsync(EmpleadoRolCreateRequest request);
+        Task<EmpleadoRolEntity> CreateAsync(RolCreateRequest request);
     }
 }

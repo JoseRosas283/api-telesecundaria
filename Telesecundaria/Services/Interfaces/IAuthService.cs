@@ -7,5 +7,7 @@ namespace Telesecundaria.Services.Interfaces
     {
         Task<LoginResponse> LoginAsync(LoginRequest request, string ip, string userAgent);
         Task<LoginResponse> LogoutAsync(string claveLogueo);
+
+        Task<LoginResponse> RefreshTokenAsync(string refreshToken);
     }
 }

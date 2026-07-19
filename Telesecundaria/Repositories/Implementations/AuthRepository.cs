@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using System.Data;
+using Telesecundaria.DTOs.Auth.Internal;
 using Telesecundaria.DTOs.Auth.Request;
 using Telesecundaria.Persistence;
 using Telesecundaria.Repositories.Interfaces;
@@ -93,5 +94,79 @@ namespace Telesecundaria.Repositories.Implementations
 
             return (exito, mensaje);
         }
+
+        public async Task<UsuarioCredencialesDto?> obtenerCredencialesAsync(string nombreUsuario)
+        {
+            return await _context.Usuarios
+                .Where(u => u.NombreUsuario == nombreUsuario)
+                .Select(u => new UsuarioCredencialesDto
+                {
+                    ClaveUsuario = u.ClaveUsuario,
+                    PasswordHash = u.Contrasenia,
+                    Estado = u.Estado
+                })
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task GuardarRefreshTokenAsync(string claveUsuario, string claveLogueo, string refreshToken, DateTime expiracion)
+        {
+            var conn = (NpgsqlConnection)_context.Database.GetDbConnection();
+            if (conn.State != ConnectionState.Open)
+                await conn.OpenAsync();
+
+            await using var cmd = new NpgsqlCommand(
+                @"INSERT INTO refresh_tokens (""claveUsuario"", ""claveLogueo"", token, fecha_expiracion)
+          VALUES (@p_clave_usuario, @p_clave_logueo, @p_token, @p_expiracion)", conn);
+
+            cmd.Parameters.AddWithValue("p_clave_usuario", claveUsuario);
+            cmd.Parameters.AddWithValue("p_clave_logueo", claveLogueo);
+            cmd.Parameters.AddWithValue("p_token", refreshToken);
+            cmd.Parameters.AddWithValue("p_expiracion", expiracion);
+
+            await cmd.ExecuteNonQueryAsync();
+        }
+
+        public async Task<RefreshTokenDto?> ValidarRefreshTokenAsync(string refreshToken)
+        {
+            var conn = (NpgsqlConnection)_context.Database.GetDbConnection();
+            if (conn.State != ConnectionState.Open)
+                await conn.OpenAsync();
+
+            await using var cmd = new NpgsqlCommand(
+            @"SELECT ""claveUsuario"", ""claveLogueo""
+            FROM refresh_tokens
+            WHERE token = @p_token
+            AND revocado = FALSE
+            AND fecha_expiracion > CURRENT_TIMESTAMP", conn);
+
+            cmd.Parameters.AddWithValue("p_token", refreshToken);
+
+            await using var reader = await cmd.ExecuteReaderAsync();
+            if (await reader.ReadAsync())
+            {
+                return new RefreshTokenDto
+                {
+                    ClaveUsuario = reader.GetString(0),
+                    ClaveLogueo = reader.GetString(1)
+                };
+            }
+
+            return null;
+        }
+
+        public async Task RevocarRefreshTokenAsync(string refreshToken)
+        {
+            var conn = (NpgsqlConnection)_context.Database.GetDbConnection();
+            if (conn.State != ConnectionState.Open)
+                await conn.OpenAsync();
+
+            await using var cmd = new NpgsqlCommand(
+                "UPDATE refresh_tokens SET revocado = TRUE WHERE token = @p_token", conn);
+
+            cmd.Parameters.AddWithValue("p_token", refreshToken);
+            await cmd.ExecuteNonQueryAsync();
+        }
+
+
     }
 }

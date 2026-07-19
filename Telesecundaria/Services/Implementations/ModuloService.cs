@@ -52,12 +52,7 @@ namespace Telesecundaria.Services.Implementations
 
         public async Task<ModuloResponse> CreateAsync(ModuloCreateRequest request)
         {
-            if (string.IsNullOrWhiteSpace(request.NombreModulo))
-                throw new ArgumentException("El nombre del módulo es obligatorio.");
-
-            if (request.UrlModulo != null && string.IsNullOrWhiteSpace(request.UrlModulo))
-                throw new ArgumentException("La URL del módulo no puede ser una cadena vacía.");
-
+         
             var creado = await _repository.CreateAsync(request);
             return MapToResponse(creado);
         }

@@ -1,5 +1,6 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Telesecundaria.DTOs.Auth.Request;
@@ -14,6 +15,8 @@ namespace Telesecundaria.Services.Implementations
         private readonly IAuthRepository _repository;
         private readonly IConfiguration _configuration;
 
+        private const string HashDummy = "$2a$11$CwTycUXWue0Thq9StjUM0uJ8i6ZzO/9OyoBWQ9zqz.dgw3fQ0v3wS";
+
         public AuthService(IAuthRepository repository, IConfiguration configuration)
         {
             _repository = repository;
@@ -22,12 +25,33 @@ namespace Telesecundaria.Services.Implementations
 
         public async Task<LoginResponse> LoginAsync(LoginRequest request, string ip, string userAgent)
         {
-            if (string.IsNullOrWhiteSpace(request.NombreUsuario))
-                throw new ArgumentException("El nombre de usuario es obligatorio.");
-            if (string.IsNullOrWhiteSpace(request.Contrasenia))
-                throw new ArgumentException("La contraseña es obligatoria.");
+           
+            var nombreUsuario = request.NombreUsuario.Trim();
+            var credenciales = await _repository.obtenerCredencialesAsync(nombreUsuario);
 
-            var (exito, mensaje, claveUsuario) = await _repository.IniciarSesionAsync(request, ip, userAgent);
+            string valorParaElSp;
+
+            if (credenciales != null)
+            {
+                bool passwordValido = BCrypt.Net.BCrypt.Verify(request.Contrasenia, credenciales.PasswordHash);
+
+                valorParaElSp = passwordValido
+                    ? credenciales.PasswordHash
+                    : credenciales.PasswordHash + "_no_valido";
+            }
+            else
+            {
+                BCrypt.Net.BCrypt.Verify(request.Contrasenia, HashDummy);
+                valorParaElSp = request.Contrasenia;
+            }
+
+            var requestParaSp = new LoginRequest
+            {
+                NombreUsuario = nombreUsuario,
+                Contrasenia = valorParaElSp
+            };
+
+            var (exito, mensaje, claveUsuario) = await _repository.IniciarSesionAsync(requestParaSp, ip, userAgent);
 
             if (!exito)
                 throw new UnauthorizedAccessException(mensaje);
@@ -36,13 +60,51 @@ namespace Telesecundaria.Services.Implementations
             var rol = await _repository.ObtenerRolAsync(claveUsuario);
             var token = GenerarToken(claveUsuario, claveLogueo, rol);
 
+            // NUEVO — generar y guardar el refresh token
+            var refreshToken = GenerarRefreshToken();
+            var diasRefresh = int.Parse(_configuration["Jwt:RefreshTokenExpiracionDias"] ?? "7");
+            await _repository.GuardarRefreshTokenAsync(claveUsuario, claveLogueo, refreshToken, DateTime.UtcNow.AddDays(diasRefresh));
+
             return new LoginResponse
             {
                 Token = token,
+                RefreshToken = refreshToken,
                 ClaveUsuario = claveUsuario,
                 ClaveLogueo = claveLogueo,
                 Rol = rol,
                 Mensaje = mensaje
+            };
+        }
+
+        // Refresh -Token
+        public async Task<LoginResponse> RefreshTokenAsync(string refreshToken)
+        {
+            if (string.IsNullOrWhiteSpace(refreshToken))
+                throw new UnauthorizedAccessException("Refresh token no proporcionado.");
+
+            var datos = await _repository.ValidarRefreshTokenAsync(refreshToken);
+            if (datos == null)
+                throw new UnauthorizedAccessException("Refresh token inválido o expirado.");
+
+            var rol = await _repository.ObtenerRolAsync(datos.ClaveUsuario);
+
+           
+            await _repository.RevocarRefreshTokenAsync(refreshToken);
+
+            var nuevoAccessToken = GenerarToken(datos.ClaveUsuario, datos.ClaveLogueo, rol);
+            var nuevoRefreshToken = GenerarRefreshToken();
+
+            var diasRefresh = int.Parse(_configuration["Jwt:RefreshTokenExpiracionDias"] ?? "7");
+            await _repository.GuardarRefreshTokenAsync(datos.ClaveUsuario, datos.ClaveLogueo, nuevoRefreshToken, DateTime.UtcNow.AddDays(diasRefresh));
+
+            return new LoginResponse
+            {
+                Token = nuevoAccessToken,
+                RefreshToken = nuevoRefreshToken,
+                ClaveUsuario = datos.ClaveUsuario,
+                ClaveLogueo = datos.ClaveLogueo,
+                Rol = rol,
+                Mensaje = "Token renovado correctamente."
             };
         }
 
@@ -56,10 +118,7 @@ namespace Telesecundaria.Services.Implementations
             if (!exito)
                 throw new InvalidOperationException(mensaje);
 
-            return new LoginResponse
-            {
-                Mensaje = mensaje
-            };
+            return new LoginResponse { Mensaje = mensaje };
         }
 
         private string GenerarToken(string claveUsuario, string claveLogueo, string rol)
@@ -84,6 +143,15 @@ namespace Telesecundaria.Services.Implementations
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+     
+        private string GenerarRefreshToken()
+        {
+            var randomBytes = new byte[64];
+            using var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(randomBytes);
+            return Convert.ToBase64String(randomBytes);
         }
     }
 }

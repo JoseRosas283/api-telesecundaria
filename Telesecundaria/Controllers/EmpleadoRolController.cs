@@ -26,7 +26,6 @@ namespace Telesecundaria.Controllers
         }
 
         [HttpGet("ConsultarRol/{claveRol}")]
-
         public async Task<IActionResult> GetById(string claveRol)
         {
             var rol = await _service.GetByIdAsync(claveRol);
@@ -38,8 +37,7 @@ namespace Telesecundaria.Controllers
         }
 
         [HttpPost]
-
-        public async Task<IActionResult> Create([FromBody] EmpleadoRolCreateRequest request)
+        public async Task<IActionResult> Create([FromBody] RolCreateRequest request)
         {
             try
             {

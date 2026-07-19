@@ -80,6 +80,9 @@ namespace Telesecundaria.Services.Implementations
             if (curpExistente != null)
                 throw new InvalidOperationException($"Ya existe un tutor registrado con el CURP: {dto.CurpTutor}");
 
+            dto.Contrasena = BCrypt.Net.BCrypt.HashPassword(dto.Contrasena);
+
+
             var tutorCreado = await _repository.RegistrarTutorAsync(dto);
             return MapearResponse(tutorCreado);
         }
@@ -120,6 +123,8 @@ namespace Telesecundaria.Services.Implementations
             dto.Colonia = dto.Colonia.Trim();
             dto.CodigoPostal = dto.CodigoPostal.Trim();
             dto.Municipio = dto.Municipio.Trim();
+
+            dto.Contrasena = BCrypt.Net.BCrypt.HashPassword(dto.Contrasena);
 
             await _repository.ActualizarTutorAsync(clave, dto);
         }

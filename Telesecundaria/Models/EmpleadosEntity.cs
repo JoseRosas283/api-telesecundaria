@@ -19,6 +19,6 @@ namespace Telesecundaria.Models
         public ICollection<EmpleadoRolEntity> EmpleadoRoles { get; set; } = new List<EmpleadoRolEntity>();
 
         // Relación 1:1
-        public UsuariosEntity Usuario { get; set; }
+        public UsuariosEntity? Usuario { get; set; }
     }
 }

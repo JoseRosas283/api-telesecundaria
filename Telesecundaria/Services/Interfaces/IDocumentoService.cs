@@ -13,5 +13,6 @@ namespace Telesecundaria.Services.Interfaces
         Task<IEnumerable<DocumentoResponse>> GetByExpedienteAsync(string claveExpediente);
         Task<DocumentosCargadosResponse> UploadAsync(DocumentoCreateRequest request);
         Task<DocumentosCargadosResponse> UploadAlumnosAsync(DocumentoAlumnoCreateRequest request);
+        Task<DocumentosCargadosResponse> UploadIntendenteAsync(DocumentoIntendenteCreateRequest request);
     }
 }

@@ -23,6 +23,7 @@ namespace Telesecundaria.Repositories.Implementations
                 .Include(e => e.Expediente)
                 .Include(e => e.EmpleadoRoles)
                     .ThenInclude(er => er.Rol)
+                    .Include(e => e.Usuario)
                 .AsNoTracking()
                 .ToListAsync();
         }
@@ -33,6 +34,7 @@ namespace Telesecundaria.Repositories.Implementations
                 .Include(e => e.Expediente)
                 .Include(e => e.EmpleadoRoles)
                     .ThenInclude(er => er.Rol)
+                    .Include (e => e.Usuario)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(e => e.ClaveEmpleado == claveEmpleado);
         }
@@ -95,7 +97,6 @@ namespace Telesecundaria.Repositories.Implementations
 
 
             empleado.TipoContrato = request.TipoContrato?.Trim();
-            empleado.EstatusLaboral = request.EstatusLaboral?.Trim();
             empleado.Telefono = request.Telefono?.Trim();
 
             _context.Empleados.Update(empleado);

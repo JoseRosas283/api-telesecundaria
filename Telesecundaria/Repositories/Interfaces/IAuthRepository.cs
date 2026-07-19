@@ -1,5 +1,6 @@
 ﻿
 
+using Telesecundaria.DTOs.Auth.Internal;
 using Telesecundaria.DTOs.Auth.Request;
 
 namespace Telesecundaria.Repositories.Interfaces
@@ -13,5 +14,13 @@ namespace Telesecundaria.Repositories.Interfaces
         Task<string> ObtenerRolAsync(string claveUsuario);
 
         Task<(bool exito, string mensaje)> CerrarSesionAsync(string claveLogueo);
+        Task<UsuarioCredencialesDto?> obtenerCredencialesAsync(string nombreUsuario);
+
+        //Para Refresh Token
+
+        Task GuardarRefreshTokenAsync(string claveUsuario, string claveLogueo, string refreshToken, DateTime expiracion);
+        Task<RefreshTokenDto?> ValidarRefreshTokenAsync(string refreshToken);
+        Task RevocarRefreshTokenAsync(string refreshToken);
+
     }
 }

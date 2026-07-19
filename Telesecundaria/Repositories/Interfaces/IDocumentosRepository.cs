@@ -15,5 +15,7 @@ namespace Telesecundaria.Repositories.Interfaces
         Task<DocumentosEntity> CreateAsync(DocumentoCreateRequest request);
 
         Task<DocumentosEntity> CreateAlumnosAsync(DocumentoAlumnoCreateRequest request);
+
+        Task<DocumentosEntity> CreateIntendenteAsync(DocumentoIntendenteCreateRequest request);
     }
 }

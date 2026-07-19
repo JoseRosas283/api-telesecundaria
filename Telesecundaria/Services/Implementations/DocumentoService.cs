@@ -70,9 +70,7 @@ namespace Telesecundaria.Services.Implementations
             if (request.CedulaProfesional is not null)
                 documentos.Add((request.CedulaProfesional, "Cédula Profesional"));
 
-            foreach (var (archivo, tipo) in documentos)
-                if (Path.GetExtension(archivo.FileName).ToLowerInvariant() != ".pdf")
-                    throw new ArgumentException($"El documento '{tipo}' debe ser un archivo PDF.");
+        
 
             var documentosRespuesta = new List<DocumentoResponse>();
 
@@ -114,6 +112,61 @@ namespace Telesecundaria.Services.Implementations
             };
         }
 
+        public async Task<DocumentosCargadosResponse> UploadIntendenteAsync(DocumentoIntendenteCreateRequest request)
+        {
+            var claveUsuario = _http.HttpContext!.User.FindFirst("claveUsuario")?.Value
+                ?? throw new UnauthorizedAccessException("No se pudo identificar al usuario autenticado.");
+            request.ClaveUsuario = claveUsuario;
+
+            var documentos = new List<(IFormFile Archivo, string NombreTipo)>
+    {
+        (request.ConstanciaSituacionFiscal, "Constancia de Situación Fiscal"),
+        (request.CarnetISSSTe,              "Carnet o Alta del ISSSTE"),
+        (request.IneIdentificacion,         "INE o Identificación Oficial"),
+    };
+
+            var documentosRespuesta = new List<DocumentoResponse>();
+
+            foreach (var (archivo, nombreTipo) in documentos)
+            {
+                Directory.CreateDirectory(_uploadsPath);
+                var nombreArchivo = $"{Guid.NewGuid():N}.pdf";
+                var rutaFisica = Path.Combine(_uploadsPath, nombreArchivo);
+
+                await using var stream = new FileStream(rutaFisica, FileMode.Create);
+                await archivo.CopyToAsync(stream);
+
+                var ctx = _http.HttpContext!;
+                var baseUrl = string.IsNullOrWhiteSpace(_publicBaseUrl)
+                    ? $"{ctx.Request.Scheme}://{ctx.Request.Host}"
+                    : _publicBaseUrl!.TrimEnd('/');
+
+                request.ArchivoUrl = $"{baseUrl}/uploads/expedientes/{nombreArchivo}";
+                request.NombreTipoDocumento = nombreTipo;
+
+                var entidad = await _repository.CreateIntendenteAsync(request);
+
+                documentosRespuesta.Add(new DocumentoResponse
+                {
+                    ClaveDocumento = entidad.ClaveDocumento,
+                    ArchivoUrl = entidad.ArchivoUrl,
+                    Estado = entidad.Estado,
+                    FechaSubida = entidad.FechaSubida,
+                    ClaveExpediente = entidad.ClaveExpediente,
+                    ClaveTipoDocumento = entidad.ClaveTipoDocumento,
+                    NombreTipoDocumento = entidad.TipoDocumento?.NombreDocumento ?? ""
+                });
+            }
+
+            return new DocumentosCargadosResponse
+            {
+                ClaveExpediente = request.ClaveExpediente,
+                Documentos = documentosRespuesta
+            };
+        }
+
+
+
         public async Task<DocumentosCargadosResponse> UploadAlumnosAsync(DocumentoAlumnoCreateRequest request)
         {
             var claveUsuario = _http.HttpContext!.User.FindFirst("claveUsuario")?.Value
@@ -125,10 +178,6 @@ namespace Telesecundaria.Services.Implementations
                 (request.CertificadoPrimaria, "Certificado de Primaria"),
                 (request.CartaBuenaConducta,  "Carta de Buena Conducta"),
             };
-
-            foreach (var (archivo, tipo) in documentos)
-                if (Path.GetExtension(archivo.FileName).ToLowerInvariant() != ".pdf")
-                    throw new ArgumentException($"El documento '{tipo}' debe ser un archivo PDF.");
 
             var documentosRespuesta = new List<DocumentoResponse>();
 

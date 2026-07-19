@@ -9,6 +9,9 @@ using Telesecundaria.Services.Implementations;
 using Telesecundaria.Services.Interfaces;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.FileProviders;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Telesecundaria.Validators.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -136,6 +139,11 @@ builder.Services.AddScoped<IAuthTutorService, AuthTutorService>();
 builder.Services.AddScoped<IModuloService, ModuloService>();
 builder.Services.AddScoped<IPermisoService, PermisoService>();
 
+
+//FluentValidation
+builder.Services.AddValidatorsFromAssemblyContaining<LoguinRequestValidator>();
+builder.Services.AddFluentValidationAutoValidation();
+
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddControllers();
@@ -153,7 +161,7 @@ builder.Services.AddSwaggerGen(c =>
         Scheme = "Bearer",
         BearerFormat = "JWT",
         In = Microsoft.OpenApi.Models.ParameterLocation.Header,
-        Description = "Escribe tu token JWT aquí"
+        Description = ""
     });
     c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
     {

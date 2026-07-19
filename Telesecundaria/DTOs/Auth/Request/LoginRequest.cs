@@ -1,4 +1,5 @@
-﻿namespace Telesecundaria.DTOs.Auth.Request
+﻿
+namespace Telesecundaria.DTOs.Auth.Request
 {
     public class LoginRequest
     {

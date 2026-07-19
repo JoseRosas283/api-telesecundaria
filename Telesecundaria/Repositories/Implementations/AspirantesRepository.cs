@@ -84,22 +84,22 @@ namespace Telesecundaria.Repositories.Implementations
         {
             await _context.Database.ExecuteSqlRawAsync(
                 @"CALL sp_actualizar_aspirante(
-                    @p_claveAspirante,
-                    @p_curp,
-                    @p_nombre,
-                    @p_apellido_paterno,
-                    @p_apellido_materno,
-                    @p_promedio_primaria,
-                    @p_escuela_procedencia
-                );",
-                new NpgsqlParameter<string>("p_claveAspirante", clave),
-                new NpgsqlParameter<string>("p_curp", dto.Curp),
-                new NpgsqlParameter<string>("p_nombre", dto.Nombre),
-                new NpgsqlParameter<string>("p_apellido_paterno", dto.ApellidoPaterno),
-                new NpgsqlParameter("p_apellido_materno",
-                    string.IsNullOrWhiteSpace(dto.ApellidoMaterno) ? DBNull.Value : (object)dto.ApellidoMaterno),
-                new NpgsqlParameter<decimal>("p_promedio_primaria", dto.PromedioPrimaria),
-                new NpgsqlParameter<string>("p_escuela_procedencia", dto.EscuelaProcedencia)
+                     @p_claveAspirante,
+                     @p_nombre,
+                     @p_apellido_paterno,
+                     @p_apellido_materno,
+                     @p_curp,
+                     @p_escuela_procedencia,
+                     @p_promedio_primaria
+                 );",
+        new NpgsqlParameter<string>("p_claveAspirante", clave),
+        new NpgsqlParameter<string>("p_nombre", dto.Nombre),
+        new NpgsqlParameter<string>("p_apellido_paterno", dto.ApellidoPaterno),
+        new NpgsqlParameter("p_apellido_materno",
+            string.IsNullOrWhiteSpace(dto.ApellidoMaterno) ? DBNull.Value : (object)dto.ApellidoMaterno),
+        new NpgsqlParameter<string>("p_curp", dto.Curp),
+        new NpgsqlParameter<string>("p_escuela_procedencia", dto.EscuelaProcedencia),
+        new NpgsqlParameter<decimal>("p_promedio_primaria", dto.PromedioPrimaria)
             );
         }
 

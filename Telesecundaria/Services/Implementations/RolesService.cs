@@ -35,12 +35,6 @@ namespace Telesecundaria.Services.Implementations
         public async Task<RolesEntity> CreateAsync(RolesCreateRequest request)
         {
 
-            if (string.IsNullOrWhiteSpace(request.NombreRol))
-                throw new ArgumentNullException("Debe tener un nombre el rol");
-
-            if (string.IsNullOrWhiteSpace(request.Descripcion))
-                throw new ArgumentNullException("La descripcion debe ser obligatoria");
-
             return await _repository.CreateAsync(request);
         }
     }

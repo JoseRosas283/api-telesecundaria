@@ -76,5 +76,21 @@ namespace Telesecundaria.Controllers
             var documentos = await _service.GetByExpedienteAsync(claveExpediente);
             return Ok(documentos);
         }
+
+        [HttpPost("SubirDocumentoIntendente")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> UploadIntendente([FromForm] DocumentoIntendenteCreateRequest request)
+        {
+            try
+            {
+                var resultado = await _service.UploadIntendenteAsync(request);
+                return StatusCode(201, resultado);
+            }
+            catch (ArgumentException ex) { return BadRequest(new { mensaje = ex.Message }); }
+            catch (Exception ex) { return Conflict(new { mensaje = ex.InnerException?.Message ?? ex.Message }); }
+        }
+
+
+
     }
 }

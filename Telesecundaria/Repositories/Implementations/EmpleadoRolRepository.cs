@@ -34,7 +34,7 @@ namespace Telesecundaria.Repositories.Implementations
                 .FirstOrDefaultAsync(e => e.ClaveRol == claveRol);
         }
 
-        public async Task<EmpleadoRolEntity> CreateAsync(EmpleadoRolCreateRequest request)
+        public async Task<EmpleadoRolEntity> CreateAsync(RolCreateRequest request)
         {
             using var transaction = await _context.Database.BeginTransactionAsync();
 

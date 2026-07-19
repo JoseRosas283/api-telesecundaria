@@ -8,10 +8,11 @@ namespace Telesecundaria.DTOs.Documentos.Request
         [Required] public IFormFile ConstanciaSituacionFiscal { get; set; } = null!;
         [Required] public IFormFile CarnetISSSTe { get; set; } = null!;
         [Required] public IFormFile IneIdentificacion { get; set; } = null!;
-        public IFormFile? TituloProfesional { get; set; } = null!;
-        public IFormFile? CedulaProfesional { get; set; } = null!;
+        [Required] public IFormFile? TituloProfesional { get; set; } = null!;
+        [Required] public IFormFile? CedulaProfesional { get; set; } = null!;
 
-        public string ClaveUsuario { get; set; } = string.Empty;
+        [System.Text.Json.Serialization.JsonIgnore]
+        internal string ClaveUsuario { get; set; } = string.Empty;
 
         [System.Text.Json.Serialization.JsonIgnore]
         internal string ArchivoUrl { get; set; } = string.Empty;
