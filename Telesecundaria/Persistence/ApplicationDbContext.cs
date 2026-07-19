@@ -1331,6 +1331,18 @@ namespace Telesecundaria.Persistence
                       .WithMany()
                       .HasForeignKey(e => e.ClaveAspirante)
                       .HasConstraintName("fk_entregas_aspirante");
+
+                // NUEVO: relación con Usuario (existía la columna pero no la relación)
+                entity.HasOne(e => e.Usuario)
+                      .WithMany()
+                      .HasForeignKey(e => e.ClaveUsuario)
+                      .HasConstraintName("fk_entregas_usuario");
+
+                // NUEVO: la FK real de la relación 1:1 vive en AdjuncionesOriginales, no en Entregas
+                entity.HasOne(e => e.AdjuncionOriginal)
+                      .WithOne(a => a.Entrega) // ajusta el nombre si tu navegación inversa se llama distinto
+                      .HasForeignKey<AdjuncionesOriginalesEntity>(a => a.ClaveEntrega)
+                      .HasConstraintName("fk_adj_entrega");
             });
 
             // Expedientes
@@ -1809,6 +1821,8 @@ namespace Telesecundaria.Persistence
                 entity.Property(e => e.ClaveAdjOriginal)
                       .HasColumnName("claveAdjOriginal")
                       .HasMaxLength(18)
+                      .HasDefaultValueSql("generar_clave_adj_original()")
+                      .ValueGeneratedOnAdd()
                       .IsRequired();
 
                 entity.Property(e => e.ClaveEntrega)
@@ -1826,11 +1840,6 @@ namespace Telesecundaria.Persistence
                 entity.Property(e => e.FechaCarga)
                       .HasColumnName("fecha_carga")
                       .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                entity.HasOne(e => e.Entrega)
-                      .WithOne()
-                      .HasForeignKey<AdjuncionesOriginalesEntity>(e => e.ClaveEntrega)
-                      .HasConstraintName("fk_adj_entrega");
 
                 entity.HasOne(e => e.Usuario)
                       .WithMany()

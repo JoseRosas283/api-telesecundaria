@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Telesecundaria.Persistence;
@@ -11,9 +12,11 @@ using Telesecundaria.Persistence;
 namespace Telesecundaria.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260719061904_EliminarShadowFkAdjuncionOriginal")]
+    partial class EliminarShadowFkAdjuncionOriginal
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,11 +83,9 @@ namespace Telesecundaria.Persistence.Migrations
             modelBuilder.Entity("Telesecundaria.Models.AdjuncionesOriginalesEntity", b =>
                 {
                     b.Property<string>("ClaveAdjOriginal")
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(18)
                         .HasColumnType("character varying(18)")
-                        .HasColumnName("claveAdjOriginal")
-                        .HasDefaultValueSql("generar_clave_adj_original()");
+                        .HasColumnName("claveAdjOriginal");
 
                     b.Property<string>("ClaveEntrega")
                         .IsRequired()
