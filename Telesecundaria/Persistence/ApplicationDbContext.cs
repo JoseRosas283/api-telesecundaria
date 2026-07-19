@@ -1219,7 +1219,7 @@ namespace Telesecundaria.Persistence
                       .HasMaxLength(18)
                       .IsRequired();
 
-                entity.HasIndex(e => e.ClaveTutorAspirante).IsUnique();
+                // entity.HasIndex(e => e.ClaveTutorAspirante).IsUnique();
 
                 entity.HasOne(e => e.Revision)
                       .WithOne(r => r.CitaInscripcion)
