@@ -26,6 +26,7 @@ namespace Telesecundaria.Repositories.Implementations
         public async Task<DetalleRevisionEntity?> ObtenerPorIdAsync(string claveRevision, string claveDocAspirante)
         {
             return await _context.DetalleRevision
+                .AsNoTracking()
                 .FirstOrDefaultAsync(d => d.ClaveRevision == claveRevision && d.ClaveDocAspirante == claveDocAspirante);
         }
 

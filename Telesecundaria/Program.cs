@@ -112,6 +112,8 @@ builder.Services.AddScoped<ICitasInscripcionRepository, CitasInscripcionReposito
 builder.Services.AddScoped<ICitasInscripcionService, CitasInscripcionService>();
 builder.Services.AddScoped<IAdjuncionesOriginalesRepository, AdjuncionesOriginalesRepository>();
 builder.Services.AddScoped<IAdjuncionesOriginalesService, AdjuncionesOriginalesService>();
+builder.Services.AddScoped<IEntregasRepository, EntregasRepository>();
+builder.Services.AddScoped<IEntregasService, EntregasService>();
 builder.Services.AddScoped<ITutoresRepository, TutoresRepository>();
 builder.Services.AddScoped<ITutoresService, TutoresService>();
 builder.Services.AddScoped<ITutoresAlumnosRepository, TutoresAlumnosRepository>();

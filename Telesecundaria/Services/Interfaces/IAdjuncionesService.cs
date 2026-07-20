@@ -10,5 +10,9 @@ namespace Telesecundaria.Services.Interfaces
         Task<DocumentoAdjuntadoDTO> RegistrarDocumentoTempAsync(DocumentoTempRequestDTO dto);
         Task<EstadoDocumentosResponseDTO> ObtenerEstadoDocumentosAsync(string claveAspirante);
         Task<AdjuncionResponseDTO> FinalizarAdjuncionAsync(FinalizarAdjuncionRequestDTO dto);
+
+        Task<CorregirDocumentoResponseDTO> CorregirDocumentoRechazadoAsync(string claveDocAspirante, IFormFile archivo);
+
+        Task<AdjuncionResponseDTO> ReenviarAdjuncionAsync(FinalizarAdjuncionRequestDTO dto);
     }
 }

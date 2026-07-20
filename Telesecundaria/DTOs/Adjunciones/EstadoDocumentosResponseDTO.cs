@@ -12,5 +12,6 @@
         public string ClaveDocAspirante { get; set; } = string.Empty;
         public string TipoDocumento { get; set; } = string.Empty;
         public string RutaUrl { get; set; } = string.Empty;
+        public string Estatus { get; set; } = string.Empty;
     }
 }

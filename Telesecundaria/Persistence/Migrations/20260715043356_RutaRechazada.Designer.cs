@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Telesecundaria.Persistence;
@@ -11,9 +12,11 @@ using Telesecundaria.Persistence;
 namespace Telesecundaria.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260715043356_RutaRechazada")]
+    partial class RutaRechazada
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,11 +83,9 @@ namespace Telesecundaria.Persistence.Migrations
             modelBuilder.Entity("Telesecundaria.Models.AdjuncionesOriginalesEntity", b =>
                 {
                     b.Property<string>("ClaveAdjOriginal")
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(18)
                         .HasColumnType("character varying(18)")
-                        .HasColumnName("claveAdjOriginal")
-                        .HasDefaultValueSql("generar_clave_adj_original()");
+                        .HasColumnName("claveAdjOriginal");
 
                     b.Property<string>("ClaveEntrega")
                         .IsRequired()
@@ -463,71 +464,13 @@ namespace Telesecundaria.Persistence.Migrations
                     b.HasIndex("ClaveRevision")
                         .IsUnique();
 
-                    b.HasIndex("ClaveTutorAspirante");
+                    b.HasIndex("ClaveTutorAspirante")
+                        .IsUnique();
 
                     b.ToTable("CitasInscripcion", null, t =>
                         {
                             t.HasCheckConstraint("ck_estado_cita", "estado_cita IN ('Programada','Asistió','No Asistió')");
                         });
-                });
-
-            modelBuilder.Entity("Telesecundaria.Models.CodigosRecuperacionTutorEntity", b =>
-                {
-                    b.Property<string>("ClaveCodigoRecuperacion")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(18)
-                        .HasColumnType("character varying(18)")
-                        .HasColumnName("claveCodigoRecuperacion")
-                        .HasDefaultValueSql("generar_clave_codigo_recuperacion()");
-
-                    b.Property<string>("ClaveTutorAspirante")
-                        .IsRequired()
-                        .HasMaxLength(18)
-                        .HasColumnType("character varying(18)")
-                        .HasColumnName("claveTutorAspirante");
-
-                    b.Property<string>("Codigo")
-                        .IsRequired()
-                        .HasMaxLength(6)
-                        .HasColumnType("character varying(6)")
-                        .HasColumnName("codigo");
-
-                    b.Property<DateTime>("FechaCreacion")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("fecha_creacion")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<DateTime>("FechaExpiracion")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("fecha_expiracion");
-
-                    b.Property<string>("TokenConfirmacion")
-                        .HasMaxLength(64)
-                        .HasColumnType("character varying(64)")
-                        .HasColumnName("token_confirmacion");
-
-                    b.Property<DateTime?>("TokenExpiracion")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("token_expiracion");
-
-                    b.Property<bool>("TokenUsado")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false)
-                        .HasColumnName("token_usado");
-
-                    b.Property<bool>("Usado")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false)
-                        .HasColumnName("usado");
-
-                    b.HasKey("ClaveCodigoRecuperacion");
-
-                    b.HasIndex("ClaveTutorAspirante");
-
-                    b.ToTable("CodigosRecuperacionTutor", (string)null);
                 });
 
             modelBuilder.Entity("Telesecundaria.Models.ConvocatoriasEntity", b =>
@@ -866,8 +809,8 @@ namespace Telesecundaria.Persistence.Migrations
 
                     b.Property<string>("ArchivoUrl")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
+                        .HasMaxLength(80)
+                        .HasColumnType("character varying(80)")
                         .HasColumnName("archivo_url");
 
                     b.Property<string>("ClaveExpediente")
@@ -990,6 +933,10 @@ namespace Telesecundaria.Persistence.Migrations
                         .HasColumnName("claveEntrega")
                         .HasDefaultValueSql("generar_clave_entrega()");
 
+                    b.Property<string>("AdjuncionOriginalClaveAdjOriginal")
+                        .IsRequired()
+                        .HasColumnType("character varying(18)");
+
                     b.Property<string>("ClaveAspirante")
                         .IsRequired()
                         .HasMaxLength(18)
@@ -1027,6 +974,8 @@ namespace Telesecundaria.Persistence.Migrations
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.HasKey("ClaveEntrega");
+
+                    b.HasIndex("AdjuncionOriginalClaveAdjOriginal");
 
                     b.HasIndex("ClaveAspirante")
                         .IsUnique();
@@ -1863,112 +1812,6 @@ namespace Telesecundaria.Persistence.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Telesecundaria.Models.RefreshTokenEntity", b =>
-                {
-                    b.Property<Guid>("ClaveRefreshToken")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("clave_refresh_token")
-                        .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<string>("ClaveLogueo")
-                        .IsRequired()
-                        .HasMaxLength(18)
-                        .HasColumnType("character varying(18)")
-                        .HasColumnName("claveLogueo");
-
-                    b.Property<string>("ClaveUsuario")
-                        .IsRequired()
-                        .HasMaxLength(18)
-                        .HasColumnType("character varying(18)")
-                        .HasColumnName("claveUsuario");
-
-                    b.Property<DateTime>("FechaCreacion")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("fecha_creacion")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<DateTime>("FechaExpiracion")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("fecha_expiracion");
-
-                    b.Property<bool>("Revocado")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false)
-                        .HasColumnName("revocado");
-
-                    b.Property<string>("Token")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("token");
-
-                    b.HasKey("ClaveRefreshToken");
-
-                    b.HasIndex("ClaveUsuario");
-
-                    b.HasIndex("Token")
-                        .IsUnique();
-
-                    b.ToTable("refresh_tokens", (string)null);
-                });
-
-            modelBuilder.Entity("Telesecundaria.Models.RefreshTokenTutorEntity", b =>
-                {
-                    b.Property<Guid>("ClaveRefreshToken")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("clave_refresh_token")
-                        .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<string>("ClaveTokenConvocatoria")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)")
-                        .HasColumnName("claveTokenConvocatoria");
-
-                    b.Property<string>("ClaveTutorAspirante")
-                        .IsRequired()
-                        .HasMaxLength(18)
-                        .HasColumnType("character varying(18)")
-                        .HasColumnName("claveTutorAspirante");
-
-                    b.Property<DateTime>("FechaCreacion")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("fecha_creacion")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<DateTime>("FechaExpiracion")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("fecha_expiracion");
-
-                    b.Property<bool>("Revocado")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false)
-                        .HasColumnName("revocado");
-
-                    b.Property<string>("Token")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("token");
-
-                    b.HasKey("ClaveRefreshToken");
-
-                    b.HasIndex("ClaveTokenConvocatoria");
-
-                    b.HasIndex("ClaveTutorAspirante");
-
-                    b.HasIndex("Token")
-                        .IsUnique();
-
-                    b.ToTable("refresh_tokens_tutor", (string)null);
-                });
-
             modelBuilder.Entity("Telesecundaria.Models.RequisitosEntity", b =>
                 {
                     b.Property<string>("ClaveRequisito")
@@ -2613,7 +2456,7 @@ namespace Telesecundaria.Persistence.Migrations
             modelBuilder.Entity("Telesecundaria.Models.AdjuncionesOriginalesEntity", b =>
                 {
                     b.HasOne("Telesecundaria.Models.EntregasEntity", "Entrega")
-                        .WithOne("AdjuncionOriginal")
+                        .WithOne()
                         .HasForeignKey("Telesecundaria.Models.AdjuncionesOriginalesEntity", "ClaveEntrega")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
@@ -2740,18 +2583,6 @@ namespace Telesecundaria.Persistence.Migrations
                         .HasConstraintName("fk_cita_tutor");
 
                     b.Navigation("Revision");
-
-                    b.Navigation("TutorAspirante");
-                });
-
-            modelBuilder.Entity("Telesecundaria.Models.CodigosRecuperacionTutorEntity", b =>
-                {
-                    b.HasOne("Telesecundaria.Models.TutorAspiranteEntity", "TutorAspirante")
-                        .WithMany()
-                        .HasForeignKey("ClaveTutorAspirante")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_codigo_tutor");
 
                     b.Navigation("TutorAspirante");
                 });
@@ -2941,6 +2772,12 @@ namespace Telesecundaria.Persistence.Migrations
 
             modelBuilder.Entity("Telesecundaria.Models.EntregasEntity", b =>
                 {
+                    b.HasOne("Telesecundaria.Models.AdjuncionesOriginalesEntity", "AdjuncionOriginal")
+                        .WithMany()
+                        .HasForeignKey("AdjuncionOriginalClaveAdjOriginal")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Telesecundaria.Models.AspirantesEntity", "Aspirante")
                         .WithMany()
                         .HasForeignKey("ClaveAspirante")
@@ -2968,6 +2805,8 @@ namespace Telesecundaria.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_entregas_usuario");
+
+                    b.Navigation("AdjuncionOriginal");
 
                     b.Navigation("Aspirante");
 
@@ -3244,39 +3083,6 @@ namespace Telesecundaria.Persistence.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("Telesecundaria.Models.RefreshTokenEntity", b =>
-                {
-                    b.HasOne("Telesecundaria.Models.UsuariosEntity", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("ClaveUsuario")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_refresh_usuario");
-
-                    b.Navigation("Usuario");
-                });
-
-            modelBuilder.Entity("Telesecundaria.Models.RefreshTokenTutorEntity", b =>
-                {
-                    b.HasOne("Telesecundaria.Models.TokenConvocatoriasEntity", "TokenConvocatoria")
-                        .WithMany()
-                        .HasForeignKey("ClaveTokenConvocatoria")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_refresh_token_convocatoria");
-
-                    b.HasOne("Telesecundaria.Models.TutorAspiranteEntity", "TutorAspirante")
-                        .WithMany()
-                        .HasForeignKey("ClaveTutorAspirante")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_refresh_tutor");
-
-                    b.Navigation("TokenConvocatoria");
-
-                    b.Navigation("TutorAspirante");
-                });
-
             modelBuilder.Entity("Telesecundaria.Models.RequisitosEntity", b =>
                 {
                     b.HasOne("Telesecundaria.Models.TipoDocumentosEntity", "TipoDocumento")
@@ -3490,14 +3296,12 @@ namespace Telesecundaria.Persistence.Migrations
                 {
                     b.Navigation("EmpleadoRoles");
 
-                    b.Navigation("Usuario");
+                    b.Navigation("Usuario")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Telesecundaria.Models.EntregasEntity", b =>
                 {
-                    b.Navigation("AdjuncionOriginal")
-                        .IsRequired();
-
                     b.Navigation("ValidacionDocumentos");
                 });
 

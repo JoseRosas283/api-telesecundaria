@@ -215,5 +215,105 @@ namespace Telesecundaria.Repositories.Implementations
             }
             return lista;
         }
+
+        public async Task<List<DocumentoConEstatusProjection>> ObtenerDocumentosConEstatusAsync(string claveAspirante)
+        {
+            var conn = (NpgsqlConnection)_context.Database.GetDbConnection();
+            if (conn.State != System.Data.ConnectionState.Open)
+                await conn.OpenAsync();
+
+            using var query = new NpgsqlCommand(
+                @"SELECT 
+                    d.""claveDocAspirante"",
+                    d.ruta_archivo,
+                    td.nombre_documento,
+                    d.""claveAspirante"",
+                    da.estatus_documento
+                  FROM ""DocumentosAspirante"" d
+                  JOIN ""TipoDocumentos"" td ON td.""claveTipoDocumento"" = d.""claveTipoDocumento""
+                  LEFT JOIN LATERAL (
+                      SELECT estatus_documento
+                      FROM ""DetalleAdjuncion""
+                      WHERE ""claveDocAspirante"" = d.""claveDocAspirante""
+                      ORDER BY fecha_evaluacion DESC, ""claveAdjuncion"" DESC
+                      LIMIT 1
+                  ) da ON TRUE
+                  WHERE d.""claveAspirante"" = @aspirante", conn);
+
+            query.Parameters.AddWithValue("aspirante", claveAspirante);
+
+            var lista = new List<DocumentoConEstatusProjection>();
+            using var reader = await query.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
+            {
+                lista.Add(new DocumentoConEstatusProjection
+                {
+                    ClaveDocAspirante = reader.GetString(0),
+                    RutaArchivo = reader.GetString(1),
+                    NombreTipoDocumento = reader.GetString(2),
+                    ClaveAspirante = reader.GetString(3),
+                    Estatus = reader.IsDBNull(4) ? string.Empty : reader.GetString(4)
+                });
+            }
+            return lista;
+        }
+
+        public async Task ActualizarRutaDocumentoRechazadoAsync(string claveDocAspirante, string nuevaRuta)
+        {
+            var conn = (NpgsqlConnection)_context.Database.GetDbConnection();
+            if (conn.State != System.Data.ConnectionState.Open)
+                await conn.OpenAsync();
+
+            using (var setSchema = new NpgsqlCommand("SET search_path TO public", conn))
+                await setSchema.ExecuteNonQueryAsync();
+
+            using var cmd = new NpgsqlCommand(
+                "CALL sp_actualizar_ruta_documento_rechazado(@doc::varchar, @ruta::varchar)", conn);
+
+            cmd.Parameters.AddWithValue("doc", claveDocAspirante);
+            cmd.Parameters.AddWithValue("ruta", nuevaRuta);
+            await cmd.ExecuteNonQueryAsync();
+        }
+
+        public async Task<List<DocumentosAspiranteEntity>> ObtenerDocumentosRechazadosAsync(string claveAspirante)
+        {
+            var conn = (NpgsqlConnection)_context.Database.GetDbConnection();
+            if (conn.State != System.Data.ConnectionState.Open)
+                await conn.OpenAsync();
+
+            // Trae documentos del aspirante cuyo último estatus en DetalleAdjuncion es 'Rechazado'
+            using var query = new NpgsqlCommand(
+                @"SELECT 
+                    d.""claveDocAspirante"",
+                    d.ruta_archivo,
+                    td.nombre_documento,
+                    d.""claveAspirante""
+                  FROM ""DocumentosAspirante"" d
+                  JOIN ""TipoDocumentos"" td ON td.""claveTipoDocumento"" = d.""claveTipoDocumento""
+                  JOIN LATERAL (
+                      SELECT estatus_documento
+                      FROM ""DetalleAdjuncion""
+                      WHERE ""claveDocAspirante"" = d.""claveDocAspirante""
+                      ORDER BY fecha_evaluacion DESC, ""claveAdjuncion"" DESC
+                      LIMIT 1
+                  ) ultimo ON ultimo.estatus_documento = 'Rechazado'
+                  WHERE d.""claveAspirante"" = @aspirante", conn);
+
+            query.Parameters.AddWithValue("aspirante", claveAspirante);
+
+            var lista = new List<DocumentosAspiranteEntity>();
+            using var reader = await query.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
+            {
+                lista.Add(new DocumentosAspiranteEntity
+                {
+                    ClaveDocAspirante = reader.GetString(0),
+                    RutaArchivo = reader.GetString(1),
+                    ClaveTipoDocumento = reader.GetString(2), // nombre legible desde TipoDocumentos
+                    ClaveAspirante = reader.GetString(3)
+                });
+            }
+            return lista;
+        }
     }
 }

@@ -93,5 +93,44 @@ namespace Telesecundaria.Controllers
                 return StatusCode(500, new { mensaje = "Error interno del servidor.", detalle = ex.Message });
             }
         }
+
+        // Corrige el documento rechazado y lo remplaza por el documento nuevo
+        [HttpPatch("documentos/{claveDocAspirante}/corregir")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> CorregirDocumentoRechazado(string claveDocAspirante, [FromForm] CorregirDocumentoRequestDTO dto)
+        {
+            try
+            {
+                var resultado = await _service.CorregirDocumentoRechazadoAsync(claveDocAspirante, dto.Archivo);
+                return Ok(resultado);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { mensaje = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { mensaje = "Error interno del servidor.", detalle = ex.Message });
+            }
+        }
+
+        // Crea una nueva adjuncion con los documentos corregidos para que vuelvan a revisarse
+        [HttpPost("reenviar")]
+        public async Task<IActionResult> ReenviarAdjuncion([FromBody] FinalizarAdjuncionRequestDTO dto)
+        {
+            try
+            {
+                var resultado = await _service.ReenviarAdjuncionAsync(dto);
+                return StatusCode(201, resultado);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { mensaje = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { mensaje = "Error interno del servidor.", detalle = ex.Message });
+            }
+        }
     }
 }

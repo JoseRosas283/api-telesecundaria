@@ -61,6 +61,8 @@ namespace Telesecundaria.Persistence
         public DbSet<PagosEntity> Pagos { get; set; }
         public DbSet<InscripcionesEntity> Inscripciones { get; set; }
 
+        public DbSet<RutaRechazadaEntity> RutasRechazadas { get; set; }
+
         // DbSets nuevos
         public DbSet<RefreshTokenEntity> RefreshTokens { get; set; }
         public DbSet<RefreshTokenTutorEntity> RefreshTokensTutor { get; set; }
@@ -1222,7 +1224,7 @@ namespace Telesecundaria.Persistence
                       .HasMaxLength(18)
                       .IsRequired();
 
-                entity.HasIndex(e => e.ClaveTutorAspirante).IsUnique();
+                // entity.HasIndex(e => e.ClaveTutorAspirante).IsUnique();
 
                 entity.HasOne(e => e.Revision)
                       .WithOne(r => r.CitaInscripcion)
@@ -1334,6 +1336,18 @@ namespace Telesecundaria.Persistence
                       .WithMany()
                       .HasForeignKey(e => e.ClaveAspirante)
                       .HasConstraintName("fk_entregas_aspirante");
+
+                // NUEVO: relación con Usuario (existía la columna pero no la relación)
+                entity.HasOne(e => e.Usuario)
+                      .WithMany()
+                      .HasForeignKey(e => e.ClaveUsuario)
+                      .HasConstraintName("fk_entregas_usuario");
+
+                // NUEVO: la FK real de la relación 1:1 vive en AdjuncionesOriginales, no en Entregas
+                entity.HasOne(e => e.AdjuncionOriginal)
+                      .WithOne(a => a.Entrega) // ajusta el nombre si tu navegación inversa se llama distinto
+                      .HasForeignKey<AdjuncionesOriginalesEntity>(a => a.ClaveEntrega)
+                      .HasConstraintName("fk_adj_entrega");
             });
 
             // Expedientes
@@ -1812,6 +1826,8 @@ namespace Telesecundaria.Persistence
                 entity.Property(e => e.ClaveAdjOriginal)
                       .HasColumnName("claveAdjOriginal")
                       .HasMaxLength(18)
+                      .HasDefaultValueSql("generar_clave_adj_original()")
+                      .ValueGeneratedOnAdd()
                       .IsRequired();
 
                 entity.Property(e => e.ClaveEntrega)
@@ -1829,11 +1845,6 @@ namespace Telesecundaria.Persistence
                 entity.Property(e => e.FechaCarga)
                       .HasColumnName("fecha_carga")
                       .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                entity.HasOne(e => e.Entrega)
-                      .WithOne()
-                      .HasForeignKey<AdjuncionesOriginalesEntity>(e => e.ClaveEntrega)
-                      .HasConstraintName("fk_adj_entrega");
 
                 entity.HasOne(e => e.Usuario)
                       .WithMany()
@@ -1887,7 +1898,7 @@ namespace Telesecundaria.Persistence
 
                 entity.Property(e => e.ArchivoUrl)
                       .HasColumnName("archivo_url")
-                      .HasMaxLength(80)
+                      .HasMaxLength(255)
                       .IsRequired();
 
                 entity.Property(e => e.Estado)
@@ -2402,6 +2413,58 @@ namespace Telesecundaria.Persistence
                       .HasForeignKey(e => e.ClavePago)
                       .HasConstraintName("fk_ins_pago")
                       .IsRequired(false);
+            });
+
+            modelBuilder.Entity<RutaRechazadaEntity>(entity =>
+            {
+                entity.ToTable("RutasRechazadas");
+                entity.HasKey(e => e.ClaveRuta);
+
+                entity.Property(e => e.ClaveRuta)
+                      .HasColumnName("claveRuta")
+                      .HasMaxLength(18)
+                      .HasDefaultValueSql("generar_clave_ruta_rechazada()")
+                      .ValueGeneratedOnAdd()
+                      .IsRequired();
+
+                entity.Property(e => e.ClaveAdjuncion)
+                      .HasColumnName("claveAdjuncion")
+                      .HasMaxLength(18)
+                      .IsRequired();
+
+                entity.Property(e => e.ClaveDocAspirante)
+                      .HasColumnName("claveDocAspirante")
+                      .HasMaxLength(18)
+                      .IsRequired();
+
+                entity.Property(e => e.ClaveRevision)
+                      .HasColumnName("claveRevision")
+                      .HasMaxLength(18)
+                      .IsRequired();
+
+                entity.Property(e => e.RutaArchivoRechazado)
+                      .HasColumnName("ruta_archivo_rechazado")
+                      .HasMaxLength(255)
+                      .IsRequired();
+
+                entity.Property(e => e.FechaRegistro)
+                      .HasColumnName("fecha_registro")
+                      .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                entity.HasOne(e => e.Adjuncion)
+                      .WithMany()
+                      .HasForeignKey(e => e.ClaveAdjuncion)
+                      .HasConstraintName("fk_rutas_adjuncion");
+
+                entity.HasOne(e => e.DocumentoAspirante)
+                      .WithMany()
+                      .HasForeignKey(e => e.ClaveDocAspirante)
+                      .HasConstraintName("fk_rutas_documento");
+
+                entity.HasOne(e => e.Revision)
+                      .WithMany()
+                      .HasForeignKey(e => e.ClaveRevision)
+                      .HasConstraintName("fk_rutas_revision");
             });
 
             modelBuilder.Entity<RefreshTokenEntity>(entity =>
