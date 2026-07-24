@@ -199,7 +199,7 @@ app.UseStaticFiles();
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(uploadsPath),
-    RequestPath = "/uploads/expedientes"
+    RequestPath = "/uploads"
 });
 
 // Configure the HTTP request pipeline.
