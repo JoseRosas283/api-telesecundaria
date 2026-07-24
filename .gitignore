@@ -8,3 +8,6 @@ obj/
 # Otros
 *.user
 *.suo
+
+# Docker / Secrets
+.env
