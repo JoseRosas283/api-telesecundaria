@@ -1,0 +1,11 @@
+{
+    "ConnectionStrings": {
+        "DefaultConnectionString": "host=localhost;port=5432;database=NOMBRE_DB;username=postgres;password=TU_PASSWORD"
+    },
+    "Logging": {
+        "LogLevel": {
+            "Default": "Information",
+            "Microsoft.AspNetCore": "Warning"
+        }
+    }
+}
