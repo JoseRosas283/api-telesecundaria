@@ -60,6 +60,9 @@ BEGIN
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS tr_notificar_cita_completa ON "CitasInscripcion";
+
 -- 4. DISPARADOR (Trigger)
 CREATE TRIGGER tr_notificar_cita_completa
 AFTER INSERT ON "CitasInscripcion"

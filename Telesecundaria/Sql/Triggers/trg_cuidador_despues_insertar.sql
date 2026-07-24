@@ -62,6 +62,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS trg_cuidador_despues_insertar ON "DetalleAdjuncionOriginal";
 
 -- ============================================================
 -- 4. CREACIÓN DEL TRIGGER ASOCIADO A LA TABLA DETALLE

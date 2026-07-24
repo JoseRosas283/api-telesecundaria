@@ -54,6 +54,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS tg_notificar_cierre_adjuncion ON "Adjunciones";
+
 CREATE TRIGGER tg_notificar_cierre_adjuncion
 AFTER UPDATE OF estatus_operativo ON "Adjunciones"
 FOR EACH ROW

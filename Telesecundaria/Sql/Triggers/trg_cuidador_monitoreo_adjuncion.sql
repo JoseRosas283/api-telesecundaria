@@ -92,6 +92,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS trg_cuidador_monitoreo_adjuncion ON "DetalleAdjuncion";
+
 -- 7. CREAR EL TRIGGER
 CREATE TRIGGER trg_cuidador_monitoreo_adjuncion
 AFTER INSERT ON "DetalleAdjuncion"

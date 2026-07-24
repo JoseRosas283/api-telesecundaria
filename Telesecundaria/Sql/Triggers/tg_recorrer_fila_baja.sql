@@ -198,6 +198,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS tg_recorrer_fila_baja ON "FilaVirtual";
 
 CREATE TRIGGER tg_recorrer_fila_baja
 AFTER DELETE ON "FilaVirtual"

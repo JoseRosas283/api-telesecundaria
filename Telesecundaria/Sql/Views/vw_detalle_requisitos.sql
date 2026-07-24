@@ -1,4 +1,4 @@
-CREATE VIEW "vw_detalle_requisitos" AS
+CREATE OR REPLACE VIEW "vw_detalle_requisitos" AS
 SELECT 
     r."claveRequisito",
     td.nombre_documento AS documento,

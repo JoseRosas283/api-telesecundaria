@@ -171,6 +171,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS tr_monitoreo_estados_inteligente ON "Convocatorias";
 
 CREATE TRIGGER tr_monitoreo_estados_inteligente
 AFTER UPDATE OF "estado" ON "Convocatorias"

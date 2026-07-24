@@ -211,6 +211,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS trg_entrega_completada ON "Entregas";
 
 CREATE OR REPLACE TRIGGER trg_entrega_completada
 AFTER UPDATE OF "estado_final" ON "Entregas" 

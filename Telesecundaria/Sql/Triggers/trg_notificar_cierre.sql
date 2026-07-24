@@ -154,6 +154,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS trg_notificar_cierre ON "Revisiones";
+
 CREATE TRIGGER trg_notificar_cierre
 AFTER UPDATE OF estado_operativo ON "Revisiones" -- Solo vigila este campo
 FOR EACH ROW

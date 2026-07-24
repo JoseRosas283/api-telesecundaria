@@ -155,8 +155,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS tr_monitorear_cupo ON "Convocatorias";
 
-SELECT*FROM Aspirantes
 CREATE TRIGGER tr_monitorear_cupo
 AFTER UPDATE OF cupo_disponible ON "Convocatorias"
 FOR EACH ROW

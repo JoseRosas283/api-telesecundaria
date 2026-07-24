@@ -1,2 +1,3 @@
-﻿CREATE INDEX idx_envio_masivo_citas ON "RevisionesAceptadas" ("claveConvocatoria", activo) 
-WHERE activo = TRUE;
+﻿CREATE INDEX IF NOT EXISTS idx_envio_masivo_citas 
+    ON "RevisionesAceptadas" ("claveConvocatoria", "Estado") 
+    WHERE "Estado" = TRUE;
