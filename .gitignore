@@ -11,3 +11,6 @@ obj/
 
 # Docker / Secrets
 .env
+
+# Config local (contiene connection string local)
+Telesecundaria/appsettings.Development.json
