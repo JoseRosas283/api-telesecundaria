@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using System.IO;
 
 #nullable disable
 
@@ -11,6 +12,9 @@ namespace Telesecundaria.Persistence.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            var basePath = AppContext.BaseDirectory;
+            ExecuteSqlFile(migrationBuilder, basePath, "Sql/Functions/generar_clave_ruta_rechazada.sql");
+
             migrationBuilder.CreateTable(
                 name: "RutasRechazadas",
                 columns: table => new
@@ -66,6 +70,13 @@ namespace Telesecundaria.Persistence.Migrations
         {
             migrationBuilder.DropTable(
                 name: "RutasRechazadas");
+        }
+
+        private static void ExecuteSqlFile(MigrationBuilder migrationBuilder, string basePath, string relativePath)
+        {
+            var fullPath = Path.Combine(basePath, relativePath);
+            var sql = File.ReadAllText(fullPath);
+            migrationBuilder.Sql(sql);
         }
     }
 }

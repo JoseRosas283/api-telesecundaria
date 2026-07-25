@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using System.IO;
 
 #nullable disable
 
@@ -11,6 +12,12 @@ namespace Telesecundaria.Persistence.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            var basePath = AppContext.BaseDirectory;
+            ExecuteSqlFile(migrationBuilder, basePath, "Sql/Functions/generar_clave_ciclo.sql");
+            ExecuteSqlFile(migrationBuilder, basePath, "Sql/Functions/generar_clave_pago.sql");
+            ExecuteSqlFile(migrationBuilder, basePath, "Sql/Functions/generar_clave_periodo.sql");
+            ExecuteSqlFile(migrationBuilder, basePath, "Sql/Functions/generar_clave_inscripcion.sql");
+
             migrationBuilder.DropIndex(
                 name: "IX_Alumnos_claveExpediente",
                 table: "Alumnos");
@@ -449,6 +456,13 @@ namespace Telesecundaria.Persistence.Migrations
                 name: "ck_alumno_estado",
                 table: "Alumnos",
                 sql: "estado IN ('Activo','Baja')");
+        }
+
+        private static void ExecuteSqlFile(MigrationBuilder migrationBuilder, string basePath, string relativePath)
+        {
+            var fullPath = Path.Combine(basePath, relativePath);
+            var sql = File.ReadAllText(fullPath);
+            migrationBuilder.Sql(sql);
         }
     }
 }

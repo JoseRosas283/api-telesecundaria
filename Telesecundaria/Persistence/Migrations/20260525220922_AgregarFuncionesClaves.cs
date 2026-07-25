@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System.IO;
 
 #nullable disable
 
@@ -10,6 +11,38 @@ namespace Telesecundaria.Persistence.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            var basePath = AppContext.BaseDirectory;
+
+            // Sembrar las funciones necesarias ANTES de usarlas como DEFAULT
+            ExecuteSqlFile(migrationBuilder, basePath, "Sql/Functions/generar_clave_usuario.sql");
+            ExecuteSqlFile(migrationBuilder, basePath, "Sql/Functions/generar_clave_tutor.sql");
+            ExecuteSqlFile(migrationBuilder, basePath, "Sql/Functions/generar_clave_tutor_aspirante.sql");
+            ExecuteSqlFile(migrationBuilder, basePath, "Sql/Functions/generar_clave_tipo_notificacion.sql");
+            ExecuteSqlFile(migrationBuilder, basePath, "Sql/Functions/generar_clave_tipo_doc.sql");
+            ExecuteSqlFile(migrationBuilder, basePath, "Sql/Functions/generar_clave_Rol.sql");
+            ExecuteSqlFile(migrationBuilder, basePath, "Sql/Functions/generar_clave_revision_aceptada.sql");
+            ExecuteSqlFile(migrationBuilder, basePath, "Sql/Functions/generar_clave_revision.sql");
+            ExecuteSqlFile(migrationBuilder, basePath, "Sql/Functions/generar_clave_Requisito.sql");
+            ExecuteSqlFile(migrationBuilder, basePath, "Sql/Functions/generar_clave_receptor.sql");
+            ExecuteSqlFile(migrationBuilder, basePath, "Sql/Functions/generar_clave_publicacion.sql");
+            ExecuteSqlFile(migrationBuilder, basePath, "Sql/Functions/generar_clave_notificacion.sql");
+            ExecuteSqlFile(migrationBuilder, basePath, "Sql/Functions/generar_clave_imagen.sql");
+            ExecuteSqlFile(migrationBuilder, basePath, "Sql/Functions/generar_lugar_fila_virtual.sql");
+            ExecuteSqlFile(migrationBuilder, basePath, "Sql/Functions/generar_clave_Expediente.sql");
+            ExecuteSqlFile(migrationBuilder, basePath, "Sql/Functions/generar_clave_envio.sql");
+            ExecuteSqlFile(migrationBuilder, basePath, "Sql/Functions/generar_clave_entrega.sql");
+            ExecuteSqlFile(migrationBuilder, basePath, "Sql/Functions/generar_clave_empleado.sql");
+            ExecuteSqlFile(migrationBuilder, basePath, "Sql/Functions/generar_clave_doc_aspirante.sql");
+            ExecuteSqlFile(migrationBuilder, basePath, "Sql/Functions/generar_clave_Documento.sql");
+            ExecuteSqlFile(migrationBuilder, basePath, "Sql/Functions/generar_clave_direccion.sql");
+            ExecuteSqlFile(migrationBuilder, basePath, "Sql/Functions/generar_clave_destino.sql");
+            ExecuteSqlFile(migrationBuilder, basePath, "Sql/Functions/generar_clave_convocatoria.sql");
+            ExecuteSqlFile(migrationBuilder, basePath, "Sql/Functions/generar_clave_cita.sql");
+            ExecuteSqlFile(migrationBuilder, basePath, "Sql/Functions/generar_clave_aspirante.sql");
+            ExecuteSqlFile(migrationBuilder, basePath, "Sql/Functions/generar_clave_Alumno.sql");
+            ExecuteSqlFile(migrationBuilder, basePath, "Sql/Functions/generar_clave_adjuncion.sql");
+
+
             migrationBuilder.AlterColumn<string>(
                 name: "claveUsuario",
                 table: "Usuarios",
@@ -607,6 +640,13 @@ namespace Telesecundaria.Persistence.Migrations
                 oldType: "character varying(18)",
                 oldMaxLength: 18,
                 oldDefaultValueSql: "generar_clave_adjuncion()");
+        }
+
+        private static void ExecuteSqlFile(MigrationBuilder migrationBuilder, string basePath, string relativePath)
+        {
+            var fullPath = Path.Combine(basePath, relativePath);
+            var sql = File.ReadAllText(fullPath);
+            migrationBuilder.Sql(sql);
         }
     }
 }
