@@ -7,7 +7,7 @@ DECLARE
     clave_final VARCHAR(18);
 BEGIN
     -- 1. Bloqueo preventivo para evitar que dos aspirantes choquen en milisegundos
-    LOCK TABLE Aspirantes IN EXCLUSIVE MODE;
+    LOCK TABLE "Aspirantes" IN EXCLUSIVE MODE;
 
     -- 2. Obtener el año actual a dos dígitos (ej. 26)
     anio := TO_CHAR(CURRENT_DATE, 'YY');
