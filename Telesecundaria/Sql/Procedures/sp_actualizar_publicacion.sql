@@ -42,13 +42,13 @@ BEGIN
     LEFT JOIN "Convocatorias" c ON p."claveConvocatoria" = c."claveConvocatoria"
     WHERE p."clavePublicacion" = p_clavePublicacion;
 
-    IF v_pub_actual.clavePublicacion IS NULL THEN
+    IF v_pub_actual."clavePublicacion" IS NULL THEN
         RAISE EXCEPTION 'Error: La publicación % no existe.', p_clavePublicacion;
     END IF;
 
     -- Asignación de tus variables originales a partir del registro obtenido
     v_categoria_actual    := v_pub_actual.categoria;
-    v_claveConvocatoria   := v_pub_actual.claveConvocatoria;
+    v_claveConvocatoria   := v_pub_actual."claveConvocatoria";
     v_visible_heredada     := v_pub_actual.estatus_visible;
     v_fecha_aparicion_pub := v_pub_actual.fecha_aparicion;
     v_fecha_retiro_pub    := v_pub_actual.fecha_retiro;
